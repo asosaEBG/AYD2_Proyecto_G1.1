@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
-const view_on_cognito = require("./view");
 const handleLogin = async (req, res) => {
-  const { username, password, mfa } = req.body;
+  const { username, password } = req.body;
   try {
     AWS.config.update({
       region: process.env.AWS_REGION,

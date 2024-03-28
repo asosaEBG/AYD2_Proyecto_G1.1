@@ -37,6 +37,7 @@ exports.authorize = async (req, res, next) => {
         jsonFormat
           .formatCognitoInfo(response)
           .then((usrInfo) => {
+            usrInfo.username = userData.username;
             req.userData = usrInfo;
             next();
           })

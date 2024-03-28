@@ -35,18 +35,22 @@ const viewColaborador = async (req, res) => {
       [id]
     )
     .then((response_database) => {
-      view_on_cognito
-        .getUserAttributesBySub(response_database.result[0].cognito_sub)
-        .then((response_cognito) => {
-          return res.status(200).json({
-            response_database,
-            response_cognito,
+      if (response_database.result.length > 0) {
+        view_on_cognito
+          .getUserAttributesBySub(response_database.result[0].cognito_sub)
+          .then((response_cognito) => {
+            return res.status(200).json({
+              response_database,
+              response_cognito,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            return res.status(500).json({ log: error });
           });
-        })
-        .catch((error) => {
-          console.log(error);
-          return res.status(500).json({ log: error });
-        });
+      } else {
+        return res.status(200).json({ log: "COLABORADOR NO ENCONTRADO" });
+      }
     })
     .catch((error) => {
       console.log(error);
