@@ -14,7 +14,9 @@ import { take } from 'rxjs';
 })
 export class RegisterComponent {
   showAlert: boolean = false;
-  alertMessage: string = ""
+  alertMessage: string = "";
+  imagenPerfil: string | ArrayBuffer = null;
+  vistaActual = "elegir-opcion";
 
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
 
@@ -22,11 +24,11 @@ export class RegisterComponent {
     nombre: [null, [Validators.required]],
     apellido: [null, [Validators.required]],
     telefono: [null, [Validators.required]],
-    fechaNacimiento: [null, [Validators.required]],
-    rol: [null, Validators.required],
     correo: [null, [Validators.required, Validators.email]],
     password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
     passwordRepeat: [null, [Validators.required]],
+    img: [null, [Validators.required]],
+    direccion: [null, [Validators.required]]
   });
 
   loading: boolean = false;
@@ -46,14 +48,11 @@ export class RegisterComponent {
   get notValidTelefono(): boolean {
     return this.registerForm.get("telefono").touched && this.registerForm.get("telefono").invalid;
   }
-  get notValidFechaNacimiento(): boolean {
-    return this.registerForm.get("fechaNacimiento").touched && this.registerForm.get("fechaNacimiento").invalid;
-  }
   get notValidCorreo(): boolean {
     return this.registerForm.get("correo").touched && this.registerForm.get("correo").invalid;
   }
-  get notValidRol(): boolean {
-    return this.registerForm.get("rol").touched && this.registerForm.get("rol").invalid;
+  get notValidDireccion(): boolean {
+    return this.registerForm.get("direccion").touched && this.registerForm.get("direccion").invalid;
   }
   get notValidPassword(): boolean {
     return this.registerForm.get("password").touched && this.registerForm.get("password").invalid;
@@ -63,6 +62,18 @@ export class RegisterComponent {
       return true;
     }
     return this.registerForm.get("passwordRepeat").value !== this.registerForm.get("password").value;
+  }
+
+  cambiarVista(): void {
+    if (this.vistaActual == "formulario-registro") {
+      this.registerForm.markAllAsTouched();
+      this.showAlert = false;
+      if (this.registerForm.invalid) {
+        return;
+      }
+      this.vistaActual = "elegir-opcion";
+      return;
+    }
   }
 
   register(): void {
@@ -75,10 +86,10 @@ export class RegisterComponent {
       nombre: this.registerForm.get("nombre").value,
       apellido: this.registerForm.get("apellido").value,
       telefono: this.registerForm.get("telefono").value,
-      rol: this.registerForm.get("rol").value,
+      direccion: this.registerForm.get("direccion").value,
       correo: this.registerForm.get("correo").value,
-      fecha_nac: this.registerForm.get("fechaNacimiento").value,
       password: this.registerForm.get("password").value,
+      img: this.registerForm.get("img").value
     };
 
     this.authService.register(registerBody).pipe(take(1)).subscribe(resp => {
@@ -90,5 +101,16 @@ export class RegisterComponent {
       this.alertMessage = err.error.mensaje ?? "Algo salió mal.";
       this.registerForm.enable();
     });
+  }
+
+  cargarImagen(event: any) {
+    const archivo = event.target.files[0];
+    if (archivo) {
+      const lector = new FileReader();
+      lector.readAsDataURL(archivo);
+      lector.onload = () => {
+        this.imagenPerfil = lector.result;
+      };
+    }
   }
 }
