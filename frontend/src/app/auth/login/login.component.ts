@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from "../auth.service";
 import { NgClass, NgIf } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,7 @@ import { NgClass, NgIf } from '@angular/common';
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, ReactiveFormsModule, NgIf, NgClass, RouterLink],
-  providers: [AuthService]
+  imports: [FormsModule, ReactiveFormsModule, NgIf, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {
   
@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
     this.createForm();
   }
 
-  get notValidCorreo(): boolean {
-    return this.loginForm.get("correo").touched && this.loginForm.get("correo").invalid;
+  get notValidUsername(): boolean {
+    return this.loginForm.get("username").touched && this.loginForm.get("username").invalid;
   }
   get notValidPassword(): boolean {
     return this.loginForm.get("password").touched && this.loginForm.get("password").invalid;
@@ -41,41 +41,33 @@ export class LoginComponent implements OnInit {
   createForm(): void {
     this.loading = true;
     this.loginForm = this.fb.group({
-      correo: [null, [Validators.required]],
+      username: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
     });
     this.loading = false;
   }
 
   login(): void {
+    this.loginForm.markAllAsTouched();
     if (this.loginForm.invalid) {
       return;
     }
     this.showAlert = false;
     this.loginForm.disable();
     const loginBody = {
-      correo: this.loginForm.get("correo").value,
+      username: this.loginForm.get("username").value,
       password: this.loginForm.get("password").value
     };
-
-    if (loginBody.correo === "admin@gmail.com" && loginBody.password === "Admin.123") {
-      const adminBody = {
-        id_usuario: "admin",
-        nombre: "Administrador",
-        apellido: "",
-        correo: "admin@gmail.com",
-        password: "Admin.123",
-        numero_tel: "12345678",
-        fecha_nac: new Date().toISOString()
-      };
-      // this.appService.saveToken(JSON.stringify(adminBody));
+    this.authService.login(loginBody).pipe(take(1)).subscribe(resp => {
+      console.log(resp);
+      this.showAlert = false;
       this.router.navigate(["home"]);
-      return;
-    } else {
-      this.alertMessage = "Usuario o contraseña incorrectas.";
+    }, err => {
+      console.log(err);
       this.loginForm.enable();
+      this.alertMessage = err.error.message;
       this.showAlert = true;
-      this.loading = false;
-    }
+    });
+    
   }
 }

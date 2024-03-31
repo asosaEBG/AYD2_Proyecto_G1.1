@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AuthService } from '../auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { take } from 'rxjs';
+import { S3Service } from '../../s3.service';
 
 @Component({
   selector: 'app-register',
@@ -16,19 +17,40 @@ export class RegisterComponent {
   showAlert: boolean = false;
   alertMessage: string = "";
   imagenPerfil: string | ArrayBuffer = null;
-  vistaActual = "elegir-opcion";
+  archivo: File = null;
+  vistaActual = "formulario-registro";
+  metodoPagoSeleccionado = "tarjeta";
+  agregarMetodoPago = false;
 
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
 
   registerForm: FormGroup = this.fb.group({
-    nombre: [null, [Validators.required]],
-    apellido: [null, [Validators.required]],
-    telefono: [null, [Validators.required]],
-    correo: [null, [Validators.required, Validators.email]],
-    password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
-    passwordRepeat: [null, [Validators.required]],
-    img: [null, [Validators.required]],
-    direccion: [null, [Validators.required]]
+    // nombre: [null, [Validators.required]],
+    // apellido: [null, [Validators.required]],
+    // telefono: [null, [Validators.required]],
+    // correo: [null, [Validators.required, Validators.email]],
+    // password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
+    // passwordRepeat: [null, [Validators.required]],
+    // img: [null, [Validators.required]],
+    // direccion: [null, [Validators.required]],
+    // username: [null, [Validators.required]]
+    nombre: ["Jorge", [Validators.required]],
+    apellido: ["Perez", [Validators.required]],
+    telefono: ["123456787", [Validators.required]],
+    correo: ["jorgeperezlj@gmail.com", [Validators.required, Validators.email]],
+    password: ["Pa$$word123", [Validators.required, Validators.pattern(this.passwordRegex)]],
+    passwordRepeat: ["Pa$$word123", [Validators.required]],
+    img: [null, []],
+    direccion: ["101 Salty Springs", [Validators.required]],
+    username: ["pereznator", [Validators.required]]
+  });
+
+  tarjetaForm: FormGroup = this.fb.group({
+    nombre: [null, []],
+    numero: [null, [Validators.required, Validators.minLength(16)]],
+    cvv: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+    mesExp: [null, [Validators.required, Validators.min(1), Validators.max(12)]],
+    yearExp: [null, [Validators.required, Validators.min(2024)]]
   });
 
   loading: boolean = false;
@@ -54,6 +76,9 @@ export class RegisterComponent {
   get notValidDireccion(): boolean {
     return this.registerForm.get("direccion").touched && this.registerForm.get("direccion").invalid;
   }
+  get notValidUsername(): boolean {
+    return this.registerForm.get("username").touched && this.registerForm.get("username").invalid;
+  }
   get notValidPassword(): boolean {
     return this.registerForm.get("password").touched && this.registerForm.get("password").invalid;
   }
@@ -64,7 +89,21 @@ export class RegisterComponent {
     return this.registerForm.get("passwordRepeat").value !== this.registerForm.get("password").value;
   }
 
+  get notValidNumeroTarjeta(): boolean {
+    return this.tarjetaForm.get("numero").touched && this.tarjetaForm.get("numero").invalid;
+  }
+  get notValidCVVTarjeta(): boolean {
+    return this.tarjetaForm.get("cvv").touched && this.tarjetaForm.get("cvv").invalid;
+  }
+  get notValidMesExpTarjeta(): boolean {
+    return this.tarjetaForm.get("mesExp").touched && this.tarjetaForm.get("mesExp").invalid;
+  }
+  get notValidYearExpTarjeta(): boolean {
+    return this.tarjetaForm.get("yearExp").touched && this.tarjetaForm.get("yearExp").invalid;
+  }
+
   cambiarVista(): void {
+    console.log(this.vistaActual);
     if (this.vistaActual == "formulario-registro") {
       this.registerForm.markAllAsTouched();
       this.showAlert = false;
@@ -73,6 +112,9 @@ export class RegisterComponent {
       }
       this.vistaActual = "elegir-opcion";
       return;
+    } else if (this.vistaActual === "elegir-opcion") {
+      this.vistaActual = "metodo-pago";
+      this.agregarMetodoPago = true;
     }
   }
 
@@ -85,32 +127,47 @@ export class RegisterComponent {
     const registerBody = {
       nombre: this.registerForm.get("nombre").value,
       apellido: this.registerForm.get("apellido").value,
-      telefono: this.registerForm.get("telefono").value,
-      direccion: this.registerForm.get("direccion").value,
-      correo: this.registerForm.get("correo").value,
+      celular: this.registerForm.get("telefono").value,
+      direccion_entrega: this.registerForm.get("direccion").value,
+      email: this.registerForm.get("correo").value,
       password: this.registerForm.get("password").value,
-      img: this.registerForm.get("img").value
+      fotografia: "",
+      username: this.registerForm.get("username").value
     };
+
+    // const bucketName = 'nombre-de-tu-bucket';
+    // const keyName = 'nombre-del-archivo-en-s3.jpg';
 
     this.authService.register(registerBody).pipe(take(1)).subscribe(resp => {
       console.log(resp);
       this.router.navigate(["auth", "login"]);
     }, err => {
+      this.vistaActual = "formulario-registro";
       console.log(err);
       this.showAlert = true;
-      this.alertMessage = err.error.mensaje ?? "Algo salió mal.";
+      this.alertMessage = err.error.msg ?? "Algo salió mal.";
       this.registerForm.enable();
     });
   }
 
   cargarImagen(event: any) {
-    const archivo = event.target.files[0];
-    if (archivo) {
+    this.archivo = event.target.files[0];
+    if (this.archivo) {
       const lector = new FileReader();
-      lector.readAsDataURL(archivo);
+      lector.readAsDataURL(this.archivo);
       lector.onload = () => {
         this.imagenPerfil = lector.result;
       };
+    }
+  }
+
+  onAgregarMetodoPago(): void {
+    if (this.metodoPagoSeleccionado === "tarjeta") {
+      this.tarjetaForm.markAllAsTouched();
+      if (this.tarjetaForm.invalid) {
+        return;
+      }
+      this.register();
     }
   }
 }

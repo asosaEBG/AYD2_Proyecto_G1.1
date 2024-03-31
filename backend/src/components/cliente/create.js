@@ -64,7 +64,7 @@ const createCliente = async (req, res) => {
           });
       } else {
         return res
-          .status(200)
+          .status(400)
           .json({ usuario_repetido: true, msg: response_verify_usr.msg });
       }
     })

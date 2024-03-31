@@ -12,7 +12,7 @@ export enum RequestMethod {
 
 @Injectable({ providedIn: "root" })
 export class HttpService {
-  private serverUrl: string = "http://localhost:8888/api";
+  private serverUrl: string = "http://localhost:9000";
 
   constructor(private httpClient: HttpClient) {}
 
