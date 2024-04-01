@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { take } from 'rxjs';
 import { S3Service } from '../../s3.service';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-register',
@@ -58,7 +59,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private s3Service: S3Service
   ) {}
 
   get notValidNombre(): boolean {
@@ -135,17 +137,30 @@ export class RegisterComponent {
       username: this.registerForm.get("username").value
     };
 
-    // const bucketName = 'nombre-de-tu-bucket';
-    // const keyName = 'nombre-del-archivo-en-s3.jpg';
-
-    this.authService.register(registerBody).pipe(take(1)).subscribe(resp => {
-      console.log(resp);
-      this.router.navigate(["auth", "login"]);
-    }, err => {
-      this.vistaActual = "formulario-registro";
-      console.log(err);
+    if (!this.archivo) {
       this.showAlert = true;
-      this.alertMessage = err.error.msg ?? "Algo salió mal.";
+      this.alertMessage = "Seleccionar un archivo valido.";
+      return;
+    }
+
+    const id = v4();
+    this.s3Service.uploadFileToBucket(this.archivo, "proyecto-2-ayd-2-g1", id).pipe(take(1)).subscribe(bucketResp => {
+      const url = bucketResp.Location;
+      registerBody.fotografia = url;
+      this.authService.register(registerBody).pipe(take(1)).subscribe(resp => {
+        console.log(resp);
+        this.router.navigate(["auth", "login"]);
+      }, err => {
+        this.vistaActual = "formulario-registro";
+        console.log(err);
+        this.showAlert = true;
+        this.alertMessage = err.error.msg ?? "Algo salió mal.";
+        this.registerForm.enable();
+      });
+      this.registerForm.enable();
+    }, err => {
+      this.showAlert = true;
+      this.alertMessage = "Algo salió mal subiendo la imagen.";
       this.registerForm.enable();
     });
   }

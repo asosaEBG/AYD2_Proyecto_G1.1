@@ -113,14 +113,23 @@ export class AuthService {
   }
 
   signOut(): Observable<any> {
-    // Remove the access token from the local storage
-    localStorage.removeItem('refreshToken');
-
-    // Set the authenticated flag to false
-    this.authenticated = false;
-    this.tokenSubject.next(null);
-    // Return the observable
-    return of(true);
+    return this.httpClient.get(`${this.serverUrl}/auth/logout`, { headers: { authorization: `Bearer ${this.tokenSubject.value}` } }).pipe(
+      catchError((err) => {
+        console.log(err);
+        return of(false);
+      }),
+      switchMap(response => {
+        console.log(response);
+        // Remove the access token from the local storage
+        localStorage.removeItem('refreshToken');
+    
+        // Set the authenticated flag to false
+        this.authenticated = false;
+        this.tokenSubject.next(null);
+        // Return the observable
+        return of(response);
+      })
+    )
   }
 
   check(): Observable<boolean> {

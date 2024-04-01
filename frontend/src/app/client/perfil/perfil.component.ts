@@ -7,6 +7,8 @@ import { take } from 'rxjs';
 import { ClientService } from '../client.service';
 import { Cliente } from '../client.types';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { S3Service } from '../../s3.service';
+import { v4 } from "uuid";
 
 @Component({
   selector: 'app-perfil',
@@ -25,11 +27,13 @@ export class PerfilComponent implements OnInit {
 
   cliente: Cliente;
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
+  estado_usuario_id: number;
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private clientSerivce: ClientService
+    private clientSerivce: ClientService,
+    private s3Service: S3Service
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +73,7 @@ export class PerfilComponent implements OnInit {
     this.authService.user$.pipe(take(1)).subscribe(user => {
       this.clientSerivce.getUser(`${user.idCliente}`).pipe(take(1)).subscribe(resp => {
         console.log(resp);
+        this.estado_usuario_id = resp.response_database.result[0].estado_usuario_id;
         this.cliente = {
           id: resp.response_database.result[0].id,
           nombre: resp.response_database.result[0].nombre,
@@ -94,11 +99,11 @@ export class PerfilComponent implements OnInit {
       apellido: [this.cliente.apellido, [Validators.required]],
       telefono: [this.cliente.celular, [Validators.required]],
       correo: [this.cliente.email, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
-      passwordRepeat: [null, [Validators.required]],
-      img: [null, [Validators.required]],
+      // password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
+      // passwordRepeat: [null, [Validators.required]],
+      img: [null, []],
       direccion: [this.cliente.direccion, [Validators.required]],
-      username: [this.cliente.username, [Validators.required]]
+      username: [{ value: this.cliente.username, disabled: true}, [Validators.required]]
     });
     this.loading = false;
   }
@@ -115,6 +120,53 @@ export class PerfilComponent implements OnInit {
   }
 
   guardar(): void {
+    this.perfilForm.markAllAsTouched();
+    if (this.perfilForm.invalid) {
+      return;
+    }
+    this.perfilForm.disable();
+
+    const body = {
+      nombre: this.perfilForm.get("nombre").value,
+      apellido: this.perfilForm.get("apellido").value,
+      celular: this.perfilForm.get("telefono").value,
+      email: this.perfilForm.get("correo").value,
+      direccion_entrega: this.perfilForm.get("direccion").value,
+      username: this.perfilForm.get("username").value,
+      estado_usuario_id: this.estado_usuario_id,
+      fotografia: this.cliente.fotografia
+    };
+
+    if (this.archivo) {
+      const id = v4();
+      this.s3Service.uploadFileToBucket(this.archivo, "proyecto-2-ayd-2-g1", id).subscribe(bucketResp => {
+        console.log(bucketResp);
+        body.fotografia = bucketResp.Location;
+        console.log(body);
+        this.clientSerivce.update(this.cliente.id, body).pipe(take(1)).subscribe(resp => {
+          console.log(resp);
+          this.perfilForm.enable();
+          this.imagenPerfil = null;
+          this.archivo = null;
+          this.getUser()
+        }, err => {
+          console.log(err);
+        });
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      this.clientSerivce.update(this.cliente.id, body).pipe(take(1)).subscribe(resp => {
+        console.log(resp);
+        this.perfilForm.enable();
+        this.imagenPerfil = null;
+        this.archivo = null;
+        this.getUser();
+      }, err => {
+        this.perfilForm.enable();
+        console.log(err);
+      });
+    }
 
   }
 }

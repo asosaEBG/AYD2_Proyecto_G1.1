@@ -7,12 +7,13 @@ import { Observable, Observer } from 'rxjs';
 })
 export class S3Service {
 
-  S3: AWS.S3;
+  private S3: any;
 
   constructor() {
     AWS.config.update({
       accessKeyId: 'AKIA6GOQDXUTYJPU6YMG',
-      secretAccessKey: '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'
+      secretAccessKey: 'J28/+0jTAZf6/cp6rtKZ9cqp9AFH2u+zfW4Kv7fD',
+      region: "us-east-1"
     });
     this.S3 = new AWS.S3();
   }

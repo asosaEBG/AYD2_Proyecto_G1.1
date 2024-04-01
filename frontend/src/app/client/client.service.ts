@@ -10,4 +10,10 @@ export class ClientService {
     return this.httpService.request(RequestMethod.GET, `/cliente/${idCliente}`);
   }
 
+  update(idCliente: number, body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.PUT, `/cliente/${idCliente}`, body);
+  }
+
+  
+
 }

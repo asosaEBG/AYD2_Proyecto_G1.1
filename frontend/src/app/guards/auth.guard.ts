@@ -9,6 +9,7 @@ export const authGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
   return inject(AuthService).check().pipe(
     switchMap((authenticated) => {
       if (!authenticated) {
+        router.navigate(["auth", "login"])
         return of(false);
       }
       // Allow the access
