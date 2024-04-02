@@ -25,7 +25,7 @@
             {{user.username}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['cliente', 'perfil']">Ver Perfil</a></li>
+            <li><a class="dropdown-item" role="button" (click)="irAPerfil()">Ver Perfil</a></li>
             <li><a class="dropdown-item" >Mis Pedidos</a></li>
             <li><a class="dropdown-item" >Métodos de Pago</a></li>
             <li><hr class="dropdown-divider"></li>

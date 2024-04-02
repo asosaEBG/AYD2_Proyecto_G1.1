@@ -44,8 +44,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  isHomeSubs(): void {
-    
+  irAPerfil(): void {
+    if (this.user.tipoUsuario === "CLIENTE") {
+      this.router.navigate(["cliente", "perfil"])
+    } else if (this.user.tipoUsuario === "ADMINISTRADOR") {
+      this.router.navigate(["admin", "perfil"])
+    }
   }
 
 }
