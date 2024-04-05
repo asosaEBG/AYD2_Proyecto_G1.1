@@ -5,10 +5,13 @@ const deleteCliente = require("../../components/cliente/delete");
 const readCliente = require("../../components/cliente/read");
 const updateCliente = require("../../components/cliente/update");
 const viewCliente = require("../../components/cliente/view");
+const resetPassword = require("../../components/cliente/reset_pwd");
 router.post("/", createCliente.createCliente);
 router.put("/:id", authMiddleware.authorize, updateCliente.updateCliente);
 router.delete("/:id", authMiddleware.authorize, deleteCliente.deleteCliente);
 router.get("/", authMiddleware.authorize, readCliente.readCliente);
 router.get("/:id", authMiddleware.authorize, viewCliente.viewCliente);
+router.post("/send-recovery",  resetPassword.sendMailPasswordRecovery);
+router.put("/:id/reset-pwd",  resetPassword.resetPassword);
 
 module.exports = router;

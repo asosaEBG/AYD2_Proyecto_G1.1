@@ -26,6 +26,10 @@ const retroalimentacion_producto = require("./retroalimentacion_producto/Retroal
 const tipos_metodo_pago = require("./tipo_metodo_pago/TipoMetodoPago");
 const tipo_usuario = require("./tipo_usuario/TipoUsuario");
 const validacion_pago = require("./validacion_pago/ValidacionPago");
+const valoracion_pagina = require("./valoracion_pagina/ValoracionPagina");
+const lista_deseos = require("./lista_deseos/ListaDeseos");
+const carrito = require("./carrito/carrito");
+
 router.use("/colaborador", colaborador);
 router.use("/cliente", cliente);
 router.use("/admin", admin);
@@ -53,5 +57,8 @@ router.use("/retroalimentacion_producto", retroalimentacion_producto);
 router.use("/tipos_metodo_pago", tipos_metodo_pago);
 router.use("/tipo_usuario", tipo_usuario);
 router.use("/validacion_pago", validacion_pago);
+router.use("/valoracion_pagina", valoracion_pagina);
+router.use("/lista_deseos", lista_deseos);
+router.use("/carrito", carrito);
 
 module.exports = router;

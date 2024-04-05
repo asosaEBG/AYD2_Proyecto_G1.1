@@ -66,7 +66,24 @@ module.exports.getUserAttributesByUsername = async (username) => {
       const result = await cognitoidentityserviceprovider
         .adminGetUser(params)
         .promise();
-      resolve(result);
+      let salida = {};
+      result.UserAttributes.map((actual, index) => {
+        if (actual.Name === "sub") {
+          salida.sub = actual.Value;
+        } else if (actual.Name === "email") {
+          salida.email = actual.Value;
+        }
+        if (index == result.UserAttributes.length - 1) {
+          salida.Username = result.Username;
+          salida.UserCreateDate = moment(result.UserCreateDate)
+            .tz("America/Guatemala")
+            .format("LLL");
+          salida.UserLastModifiedDate = moment(result.UserLastModifiedDate)
+            .tz("America/Guatemala")
+            .format("LLL");
+          resolve(salida);
+        }
+      });
     } catch (error) {
       console.log(error);
       reject(error);
