@@ -5,6 +5,11 @@ const { v4 } = require("uuid");
 const putObject = async (TableName, Item) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       if (!Item.id) {
         Item.id = v4();
       }
@@ -26,6 +31,11 @@ const putObject = async (TableName, Item) => {
 const deleteObject = async (TableName, Key) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       await dynamodb
         .delete({
@@ -43,6 +53,11 @@ const deleteObject = async (TableName, Key) => {
 const readObjects = async (TableName) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const result = await dynamodb.scan({ TableName }).promise();
       resolve(result.Items);
@@ -60,6 +75,11 @@ const updateObject = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       let params = {
         TableName,
@@ -82,6 +102,11 @@ const viewObject = async (TableName, Key) => {
   return new Promise(async (resolve, reject) => {
     console.log(TableName, Key);
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const result = await dynamodb
         .get({
@@ -104,6 +129,11 @@ const queryObjects = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       console.log(TableName, KeyConditionExpression, ExpressionAttributeValues);
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const result = await dynamodb
@@ -124,6 +154,11 @@ const queryObjects = async (
 const scanObjects = async (params) => {
   return new Promise(async (resolve, reject) => {
     try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
       console.log(params);
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const result = await dynamodb.scan(params).promise();
