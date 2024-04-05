@@ -34,16 +34,8 @@ exports.authorize = async (req, res, next) => {
     view_on_cognito
       .getUserAttributesByUsername(userData.username)
       .then((response) => {
-        jsonFormat
-          .formatCognitoInfo(response)
-          .then((usrInfo) => {
-            usrInfo.username = userData.username;
-            req.userData = usrInfo;
-            next();
-          })
-          .catch((err) => {
-            return res.status(500).json({ log: err });
-          });
+        req.userData = response;
+        next();
       })
       .catch((error) => {
         return res.status(500).json({ log: error });
