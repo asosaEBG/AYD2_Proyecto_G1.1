@@ -17,4 +17,7 @@ export class EmpleadoService {
   actualizar(idEmpleado: number, empleado: any): Observable<any> {
     return this.httpService.request(RequestMethod.PUT, `/colaborador/${idEmpleado}`, empleado);
   }
+  obtenerEmpleados(): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/colaborador");
+  }
 }

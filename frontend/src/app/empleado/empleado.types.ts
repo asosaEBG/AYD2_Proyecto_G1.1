@@ -14,4 +14,5 @@ export interface Empleado {
   email: string;
   codigoEmpleado: string;
   password: string;
+  estado: string;
 }

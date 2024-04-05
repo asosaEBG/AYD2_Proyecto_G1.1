@@ -3,11 +3,19 @@
   <ng-container *ngIf="!loading">
     <div class="row mt-5">
       <div class="col-lg-10">
-        <h1>{{isNew ? "Crear Empleado" : "Editar Empleado"}}</h1>
+        <h1>{{isNew ? "Crear Empleado" : empleado.nombreCompleto}}</h1>
+        <span *ngIf="!isNew" class="badge" [ngClass]="{'text-bg-success': empleado.estado === 'ACTIVO', 'text-bg-danger': empleado.estado === 'INACTIVO'}">{{empleado.estado}}</span>
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg" *ngIf="!isNew">
         <div class="d-grid gap-2">
-          <button class="btn btn-secondary">Atrás</button>
+          <button class="btn" [ngClass]="{'btn-danger': empleado.estado === 'ACTIVO', 'btn-success': empleado.estado === 'INACTIVO'}" (click)="cambiarEstado()">
+            {{empleado.estado === 'ACTIVO' ? 'Desactivar' : 'Activar'}}
+          </button>
+        </div>
+      </div>
+      <div class="col-lg">
+        <div class="d-grid gap-2">
+          <button class="btn btn-secondary" (click)="atras()">Atrás</button>
         </div>
       </div>
     </div>
@@ -19,7 +27,7 @@
 
           <div class="d-flex justify-content-between">
             <div class="card" style="width: 18rem; height: min-content;">
-              <img [src]="imagenPerfil ? imagenPerfil : empleado.fotografia" class="card-img-top img-perfil" alt="...">
+              <img [src]="isNew ? (imagenPerfil ? imagenPerfil : '../../../assets/img/register-img-placeholder.png') :  (imagenPerfil ? imagenPerfil : empleado.fotografia)" class="card-img-top img-perfil" alt="...">
               <div class="card-body">
                 <h5 class="card-content">Imagen de Perfil</h5>
                 <input type="file" (change)="cargarImagen($event)" class="form-control mb-2" formControlName="fotografia">
@@ -62,7 +70,7 @@
                 <div class="col-lg" *ngIf="!isNew">
                   <label class="form-label">Ver CV</label>
                   <div class="d-grid gap-2">
-                    <button class="btn btn-secondary btn-sm">Ver CV</button>
+                    <button class="btn btn-secondary btn-sm" (click)="verCV()">Ver CV</button>
                   </div>
                 </div>
                 <div class="col-lg">
@@ -157,10 +165,6 @@
       </div>
       <div class="col-lg-2"></div>
     </div>
-    <!-- <ng-container *ngIf="pdfLink">
-      <div style="border: 1px solid red; height: 100px;">
-        <embed [src]="pdfLink" class="pdf-content" type="application/pdf"/>
-      </div>
-    </ng-container> -->
+    
   </ng-container>
 </div>

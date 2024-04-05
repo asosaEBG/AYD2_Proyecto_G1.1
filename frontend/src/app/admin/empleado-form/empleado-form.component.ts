@@ -9,6 +9,9 @@ import { v4 } from 'uuid';
 import { S3Service } from '../../s3.service';
 import { take } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ViewCvComponent } from '../../modals/view-cv/view-cv.component';
+import { ConfirmActionComponent } from '../../modals/confirm-action/confirm-action.component';
 
 @Component({
   selector: 'app-empleado-form',
@@ -36,7 +39,8 @@ export class EmpleadoFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private s3Service: S3Service,
-    private dom: DomSanitizer
+    private dom: DomSanitizer,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -111,6 +115,7 @@ export class EmpleadoFormComponent implements OnInit {
           email: resp.response_cognito.email,
           codigoEmpleado: resp.response_cognito.Username,
           password: "",
+          estado: resp.response_database.result[0].estado_usuario
         };
         this.pdfLink = this.dom.bypassSecurityTrustResourceUrl(this.empleado.cv);
         console.log(this.pdfLink);
@@ -252,5 +257,32 @@ export class EmpleadoFormComponent implements OnInit {
       console.log(err);
       this.empleadoForm.enable();
     });
+  }
+
+
+  verCV(): void {
+    const modal = this.modalService.open(ViewCvComponent, { size: "xl" });
+    modal.componentInstance.pdfLink = this.pdfLink;
+    modal.result.then(result => {}, dismiss => {});
+  }
+
+  cambiarEstado(): void {
+    const modal = this.modalService.open(ConfirmActionComponent);
+    modal.componentInstance.title = this.empleado.estado === "ACTIVO" ? "Desactivar Empleado" : "Activar Empleado";
+    modal.componentInstance.description = this.empleado.estado === "ACTIVO" ? "Estas seguro que quieres desactivar a este empleado?" : "Estas seguro que quieres volver a activar a este empleado?";
+    modal.result.then(result => {
+      const estado = this.empleado.estado === "ACTIVO" ? 2 : 1;
+      this.empleadoService.actualizar(this.empleado.id, { estado_usuario_id: estado }).pipe(take(1)).subscribe(resp => {
+        console.log(resp);
+        this.loading = true;
+        this.getEmpleado();
+      }, err => {
+        console.log(err);
+      });
+    }, dismiss => {});
+  }
+
+  atras(): void {
+    this.location.back();
   }
 }
