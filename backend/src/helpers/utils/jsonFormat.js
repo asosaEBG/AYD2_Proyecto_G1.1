@@ -7,6 +7,7 @@ const getNonNullValue = (body, query) => {
 };
 
 const formatCognitoInfo = (info) => {
+  console.log("[INFO]", info);
   return new Promise((resolve, reject) => {
     let usr = {};
     try {

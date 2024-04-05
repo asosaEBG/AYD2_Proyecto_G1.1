@@ -26,29 +26,37 @@ async function validateToken(token, kid) {
 }
 
 exports.authorize = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader.substring(7);
-  const decodedToken = jwt.decode(token, { complete: true, json: true });
-  if (decodedToken.header) {
-    const userData = await validateToken(token, decodedToken.header.kid);
-    view_on_cognito
-      .getUserAttributesByUsername(userData.username)
-      .then((response) => {
-        jsonFormat
-          .formatCognitoInfo(response)
-          .then((usrInfo) => {
-            usrInfo.username = userData.username;
-            req.userData = usrInfo;
-            next();
-          })
-          .catch((err) => {
-            return res.status(500).json({ log: err });
-          });
-      })
-      .catch((error) => {
-        return res.status(500).json({ log: error });
-      });
-  } else {
-    return res.status(500).json({ log: "ERROR: Token inválido" });
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader.substring(7);
+    const decodedToken = jwt.decode(token, { complete: true, json: true });
+    console.log("[DECODED]", decodedToken);
+    if (decodedToken.header) {
+      const userData = await validateToken(token, decodedToken.header.kid);
+      view_on_cognito
+        .getUserAttributesByUsername(userData.username)
+        .then((response) => {
+          jsonFormat
+            .formatCognitoInfo(response)
+            .then((usrInfo) => {
+              usrInfo.username = userData.username;
+              req.userData = usrInfo;
+              next();
+            })
+            .catch((err) => {
+              console.error(err);
+              return res.status(500).json({ log: err });
+            });
+        })
+        .catch((error) => {
+          console.error(err);
+          return res.status(500).json({ log: error });
+        });
+    } else {
+      return res.status(500).json({ log: "ERROR: Token inválido" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ log: err });
   }
 };
