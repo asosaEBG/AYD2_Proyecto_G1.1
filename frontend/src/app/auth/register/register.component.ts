@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { take } from 'rxjs';
 import { S3Service } from '../../s3.service';
 import { v4 } from 'uuid';
+import { ClientService } from '../../client/client.service';
 
 @Component({
   selector: 'app-register',
@@ -38,12 +39,12 @@ export class RegisterComponent {
     nombre: ["Jorge", [Validators.required]],
     apellido: ["Perez", [Validators.required]],
     telefono: ["123456787", [Validators.required]],
-    correo: ["jorgeperezlj@gmail.com", [Validators.required, Validators.email]],
+    correo: ["usac@gmail.com", [Validators.required, Validators.email]],
     password: ["Pa$$word123", [Validators.required, Validators.pattern(this.passwordRegex)]],
     passwordRepeat: ["Pa$$word123", [Validators.required]],
     img: [null, []],
     direccion: ["101 Salty Springs", [Validators.required]],
-    username: ["pereznator", [Validators.required]]
+    username: ["username", [Validators.required]]
   });
 
   tarjetaForm: FormGroup = this.fb.group({
@@ -60,7 +61,8 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private s3Service: S3Service
+    private s3Service: S3Service,
+    private clienteService: ClientService
   ) {}
 
   get notValidNombre(): boolean {
@@ -149,7 +151,11 @@ export class RegisterComponent {
       registerBody.fotografia = url;
       this.authService.register(registerBody).pipe(take(1)).subscribe(resp => {
         console.log(resp);
-        this.router.navigate(["auth", "login"]);
+        if (!this.agregarMetodoPago) {
+          this.router.navigate(["auth", "login"]);
+          return;
+        }
+        this.crearMetodoPago(resp.database.results[1].insertId);
       }, err => {
         this.vistaActual = "formulario-registro";
         console.log(err);
@@ -183,6 +189,53 @@ export class RegisterComponent {
         return;
       }
       this.register();
+    }
+  }
+
+  crearMetodoPago(idCliente: number) : void {
+    if (this.metodoPagoSeleccionado === "tarjeta") {
+      this.tarjetaForm.markAllAsTouched();
+      if (this.tarjetaForm.invalid) {
+        return;
+      }
+      this.tarjetaForm.disable();
+      const fechaExp = new Date(this.tarjetaForm.get("yearExp").value, this.tarjetaForm.get("mesExp").value - 1);
+      
+      const detalleTarjeta = {
+        numero_tarjeta: this.tarjetaForm.get("numero").value,
+        cvv: this.tarjetaForm.get("cvv").value,
+        fecha_exp: fechaExp.toISOString().slice(0, 10),
+      };
+
+      this.clienteService.crearDetalleTarjeta(detalleTarjeta).pipe(take(1)).subscribe(respDetalle => {
+        console.log("DETALLE", respDetalle);
+        const detalleId = respDetalle.response_database.result.insertId;
+        const metodoPagoBody = {
+          tipo_metodo_pago_id: 1,
+          cliente_id: idCliente,
+          detalle_tarjeta_id: detalleId
+        };
+        this.clienteService.crearMetodoPago(metodoPagoBody).pipe(take(1)).subscribe(respMetodoPago => {
+          console.log(respMetodoPago);
+          this.router.navigate(["cliente", "metodos-pago"]);
+        }, err => {
+          console.log(err);
+        });
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      const metodoPagoBody = {
+        tipo_metodo_pago_id: this.metodoPagoSeleccionado === "efectivo" ? 2 : 3,
+        cliente_id: idCliente,
+        detalle_tarjeta_id: null
+      };
+      this.clienteService.crearMetodoPago(metodoPagoBody).pipe(take(1)).subscribe(resp => {
+        console.log(resp);
+        this.router.navigate(["cliente", "metodos-pago"]);
+      }, err => {
+        console.log(err);
+      });
     }
   }
 }

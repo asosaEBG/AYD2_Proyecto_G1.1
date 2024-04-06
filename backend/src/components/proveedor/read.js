@@ -7,7 +7,7 @@ const readProveedor = async (req, res) => {
       SELECT id, 
              CONVERT(nombre, CHAR) as nombre,
              DATE_FORMAT(fecha_registro,"%d/%m/%Y %r") AS fecha_registro, 
-             DATE_FORMAT(fecha_update,"%d/%m/%Y %r") AS fecha_update,
+             DATE_FORMAT(fecha_update,"%d/%m/%Y %r") AS fecha_update
       FROM proyecto.proveedor;
     `
     )

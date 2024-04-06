@@ -7,7 +7,7 @@ const updateDetalleTarjeta = require("../../components/detalle_tarjeta/update");
 const viewDetalleTarjeta = require("../../components/detalle_tarjeta/view");
 router.post(
   "/",
-  authMiddleware.authorize,
+  // authMiddleware.authorize,
   createDetalleTarjeta.createDetalleTarjeta
 );
 router.put(

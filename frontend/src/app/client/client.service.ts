@@ -14,6 +14,19 @@ export class ClientService {
     return this.httpService.request(RequestMethod.PUT, `/cliente/${idCliente}`, body);
   }
 
-  
+  crearDetalleTarjeta(detalles: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/detalle_tarjeta", detalles);
+  }
 
+  crearMetodoPago(metodoPago: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/metodo_pago", metodoPago);
+  }
+
+  getMetodosPago(idCliente: number): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/metodo_pago", null, { id_cliente: idCliente });
+  }
+
+  eliminarMetodoPago(idMetodoPago: number): Observable<any> {
+    return this.httpService.request(RequestMethod.DELETE, `/metodo_pago/${idMetodoPago}`);
+  }
 }

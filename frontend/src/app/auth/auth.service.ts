@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, ReplaySubject, catchError, of, switchMap, take } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { User } from "./auth.types";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
   private tokenSubject: BehaviorSubject<string>;
   private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.tokenSubject = new BehaviorSubject<string>(null);
   }
 
@@ -55,7 +56,7 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.username
+            username: userResponse.cognito.Username
           };
         }, err => {
           console.log(err);
@@ -68,7 +69,11 @@ export class AuthService {
 
   loginWithRefreshToken(): Observable<any> {
     return this.httpClient.get(`${this.serverUrl}/auth/refresh`, { headers: { authorization: `Bearer ${this.refreshToken}` } }).pipe(
-      catchError(() => {
+      catchError((err) => {
+        console.log(err);
+        localStorage.removeItem('refreshToken');
+        this.router.navigate(["auth", "login"]);
+        // Remove the access token from the local storage
         return of(false)
       }),
       switchMap((response: any) => {
@@ -85,7 +90,7 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.username
+            username: userResponse.cognito.Username
           };
         }, err => {
           console.log(err);
