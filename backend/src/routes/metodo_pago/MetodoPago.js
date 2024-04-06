@@ -7,7 +7,7 @@ const updateMetodoPago = require("../../components/metodo_pago/update");
 const viewMetodoPago = require("../../components/metodo_pago/view");
 router.post(
   "/",
-  authMiddleware.authorize,
+  // authMiddleware.authorize,
   createMetodoPago.createMetodoPago
 );
 router.put(

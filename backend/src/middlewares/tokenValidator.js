@@ -26,21 +26,26 @@ async function validateToken(token, kid) {
 }
 
 exports.authorize = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader.substring(7);
-  const decodedToken = jwt.decode(token, { complete: true, json: true });
-  if (decodedToken.header) {
-    const userData = await validateToken(token, decodedToken.header.kid);
-    view_on_cognito
-      .getUserAttributesByUsername(userData.username)
-      .then((response) => {
-        req.userData = response;
-        next();
-      })
-      .catch((error) => {
-        return res.status(500).json({ log: error });
-      });
-  } else {
-    return res.status(500).json({ log: "ERROR: Token inválido" });
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader.substring(7);
+    const decodedToken = jwt.decode(token, { complete: true, json: true });
+    if (decodedToken.header) {
+      const userData = await validateToken(token, decodedToken.header.kid);
+      view_on_cognito
+        .getUserAttributesByUsername(userData.username)
+        .then((response) => {
+          console.log("response", response);
+          req.userData = response;
+          next();
+        })
+        .catch((error) => {
+          return res.status(500).json({ log: error });
+        });
+    } else {
+      return res.status(500).json({ log: "ERROR: Token inválido" });
+    }
+  } catch(err) {
+    return res.status(500).json({ log: err.toString() });
   }
 };

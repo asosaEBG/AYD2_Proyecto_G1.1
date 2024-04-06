@@ -56,7 +56,7 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.username
+            username: userResponse.cognito.Username
           };
         }, err => {
           console.log(err);
@@ -82,7 +82,6 @@ export class AuthService {
         }
         this.tokenSubject.next(response.AccessToken);
         this.getUser().pipe(take(1)).subscribe(userResponse => {
-          console.log(userResponse);
           this.user = {
             tipoUsuario: userResponse.database.tipo_usuario,
             email: userResponse.cognito.email,
@@ -91,7 +90,7 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.username
+            username: userResponse.cognito.Username
           };
         }, err => {
           console.log(err);

@@ -110,13 +110,13 @@
           <h3>Agregar Método de Pago</h3>
           <ul class="nav nav-tabs mt-2">
             <li class="nav-item">
-              <a class="nav-link active" [ngClass]="{'active': metodoPagoSeleccionado === 'tarjeta'}" (click)="metodoPagoSeleccionado = 'tarjeta'">Tarjeta</a>
+              <a class="nav-link active" role="button" [ngClass]="{'active': metodoPagoSeleccionado === 'tarjeta'}" (click)="metodoPagoSeleccionado = 'tarjeta'">Tarjeta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active': metodoPagoSeleccionado === 'efectivo'}" (click)="metodoPagoSeleccionado = 'efectivo'">Efectivo</a>
+              <a class="nav-link" role="button" [ngClass]="{'active': metodoPagoSeleccionado === 'efectivo'}" (click)="metodoPagoSeleccionado = 'efectivo'">Efectivo</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active': metodoPagoSeleccionado === 'transferencia'}" (click)="metodoPagoSeleccionado = 'transferencia'">Transferencia</a>
+              <a class="nav-link" role="button" [ngClass]="{'active': metodoPagoSeleccionado === 'transferencia'}" (click)="metodoPagoSeleccionado = 'transferencia'">Transferencia</a>
             </li>
           </ul>
 

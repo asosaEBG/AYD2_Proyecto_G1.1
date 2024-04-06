@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Empleado } from '../../empleado/empleado.types';
-import { EmpleadoService } from '../../empleado/empleado.service';
+import { Empleado } from '../../../empleado/empleado.types';
+import { EmpleadoService } from '../../../empleado/empleado.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location, NgClass, NgIf } from '@angular/common';
-import { LoadingComponent } from '../../shared/loading/loading.component';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { v4 } from 'uuid';
-import { S3Service } from '../../s3.service';
+import { S3Service } from '../../../s3.service';
 import { take } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewCvComponent } from '../../modals/view-cv/view-cv.component';
-import { ConfirmActionComponent } from '../../modals/confirm-action/confirm-action.component';
+import { ViewCvComponent } from '../../../modals/view-cv/view-cv.component';
+import { ConfirmActionComponent } from '../../../modals/confirm-action/confirm-action.component';
 
 @Component({
   selector: 'app-empleado-form',

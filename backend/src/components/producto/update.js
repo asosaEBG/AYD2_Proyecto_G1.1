@@ -15,8 +15,8 @@ const updateProducto = async (req, res) => {
       `        
       SELECT 
           producto.id, 
-          CONVERT(nombre,CHAR) AS nombre,
-          CONVERT(descripcion,CHAR) AS descripcion,
+          CONVERT(producto.nombre,CHAR) AS nombre,
+          CONVERT(producto.descripcion,CHAR) AS descripcion,
           CONVERT(portada,CHAR) AS portada,
           precio,
           DATE_FORMAT(producto.fecha_registro,"%d/%m/%Y %r") AS fechaRegistro, 

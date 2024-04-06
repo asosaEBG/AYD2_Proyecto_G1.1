@@ -8,7 +8,7 @@ const viewCategoriaProducto = require("../../components/categoria_producto/view"
 router.post("/",authMiddleware.authorize, createCategoriaProducto.createCategoriaProducto);
 router.put("/:id",authMiddleware.authorize, updateCategoriaProducto.updateCategoriaProducto);
 router.delete("/:id",authMiddleware.authorize, deleteCategoriaProducto.deleteCategoriaProducto);
-router.get("/",authMiddleware.authorize, readCategoriaProducto.readCategoriaProducto);
+router.get("/", readCategoriaProducto.readCategoriaProducto);
 router.get("/:id",authMiddleware.authorize, viewCategoriaProducto.viewCategoriaProducto);
 
 module.exports = router;
