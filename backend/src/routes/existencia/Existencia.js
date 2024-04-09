@@ -5,16 +5,15 @@ const deleteExistencia = require("../../components/existencia/delete");
 const readExistencia = require("../../components/existencia/read");
 const updateExistencia = require("../../components/existencia/update");
 const viewExistencia = require("../../components/existencia/view");
+const bulkExistencia = require("../../components/existencia/bulk");
+
+router.post("/", authMiddleware.authorize, createExistencia.createExistencia);
 router.post(
-  "/",
+  "/bulk",
   authMiddleware.authorize,
-  createExistencia.createExistencia
+  bulkExistencia.createExistenciaBulk
 );
-router.put(
-  "/:id",
-  authMiddleware.authorize,
-  updateExistencia.updateExistencia
-);
+router.put("/:id", authMiddleware.authorize, updateExistencia.updateExistencia);
 router.delete(
   "/:id",
   authMiddleware.authorize,
