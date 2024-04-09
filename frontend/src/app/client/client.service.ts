@@ -29,4 +29,12 @@ export class ClientService {
   eliminarMetodoPago(idMetodoPago: number): Observable<any> {
     return this.httpService.request(RequestMethod.DELETE, `/metodo_pago/${idMetodoPago}`);
   }
+
+  getCarrito(idCliente: number): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/carrito/cliente/${idCliente}`);
+  }
+
+  actualizarCarrito(idCarrito: string, carrito: any): Observable<any> {
+    return this.httpService.request(RequestMethod.PUT, `/carrito/${idCarrito}`, carrito);
+  }
 }

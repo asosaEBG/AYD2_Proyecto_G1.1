@@ -7,7 +7,7 @@ const readEstadoOferta = async (req, res) => {
       SELECT id, 
              CONVERT(descripcion, CHAR) as descripcion,
              DATE_FORMAT(fecha_registro,"%d/%m/%Y %r") AS fecha_registro, 
-             DATE_FORMAT(fecha_update,"%d/%m/%Y %r") AS fecha_update,
+             DATE_FORMAT(fecha_update,"%d/%m/%Y %r") AS fecha_update
       FROM proyecto.estado_oferta;
     `
     )

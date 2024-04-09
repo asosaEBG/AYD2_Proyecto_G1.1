@@ -8,7 +8,7 @@ const viewProducto = require("../../components/producto/view");
 router.post("/", authMiddleware.authorize, createProducto.createProducto);
 router.put("/:id", authMiddleware.authorize, updateProducto.updateProducto);
 router.delete("/:id", authMiddleware.authorize, deleteProducto.deleteProducto);
-router.get("/", authMiddleware.authorize, readProducto.readProducto);
-router.get("/:id", authMiddleware.authorize, viewProducto.viewProducto);
+router.get("/", readProducto.readProducto);
+router.get("/:id", viewProducto.viewProducto);
 
 module.exports = router;

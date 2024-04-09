@@ -44,4 +44,8 @@ export class AdminService {
   eliminarProducto(idProducto: number): Observable<any> {
     return this.httpService.request(RequestMethod.DELETE, `/producto/${idProducto}`);
   }
+
+  obtenerClientes(): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/cliente");
+  }
 }

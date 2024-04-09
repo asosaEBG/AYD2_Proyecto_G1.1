@@ -8,4 +8,6 @@ export interface Producto {
   fecha: Date;
   descripcion: string;
   proveedorId: string;
+  categoria?: string;
+  proveedor?: string;
 }

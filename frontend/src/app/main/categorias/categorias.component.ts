@@ -8,6 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/auth.types';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { CrearCategoriaComponent } from '../../modals/crear-categoria/crear-categoria.component';
+import { ConfirmActionComponent } from '../../modals/confirm-action/confirm-action.component';
 
 @Component({
   selector: 'app-categorias',
@@ -35,6 +36,7 @@ export class CategoriasComponent implements OnInit {
 
   getUser(): void {
     this.authService.user$.pipe(take(1)).subscribe(user => {
+      console.log(user);
       this.user = user;
     }, err => {
       console.log(err);
@@ -61,6 +63,15 @@ export class CategoriasComponent implements OnInit {
         console.log(err);
       });
       console.log(descripcion);
+    }, dismiss => {});
+  }
+
+  eliminarCategoria(idCategoria: number): void {
+    const modal = this.modalService.open(ConfirmActionComponent);
+    modal.componentInstance.title = "Eliminar Categoría";
+    modal.componentInstance.descripcion = "Estas seguro que deseas eliminar esta categoría?";
+    modal.result.then(result => {
+      
     }, dismiss => {});
   }
 }
