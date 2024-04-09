@@ -39,11 +39,14 @@
         <td>{{producto.precio | currency: 'Q'}}</td>
         <td>{{producto.costo | currency: 'Q'}}</td>
         <td>
-          <button class="btn btn-sm btn-primary mx-3" ngbTooltip="Editar" (click)="editarProducto(producto.id)">
+          <button class="btn btn-sm btn-primary" ngbTooltip="Editar" (click)="editarProducto(producto.id)">
             <i class="bi bi-pencil-square"></i>
           </button>
-          <button class="btn btn-sm btn-danger" ngbTooltip="Eliminar" (click)="eliminarProducto(producto.id)">
+          <button class="btn btn-sm btn-danger mx-3" ngbTooltip="Eliminar" (click)="eliminarProducto(producto.id)">
             <i class="bi bi-trash"></i>
+          </button>
+          <button class="btn btn-sm btn-warning" ngbTooltip="Crear Pedido" (click)="eliminarProducto(producto.id)">
+            <i class="bi bi-journal-arrow-down"></i>
           </button>
         </td>
       </tr>

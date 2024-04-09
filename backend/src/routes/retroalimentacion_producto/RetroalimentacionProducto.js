@@ -5,6 +5,8 @@ const deleteRetroalimentacionProducto = require("../../components/retroalimentac
 const readRetroalimentacionProducto = require("../../components/retroalimentacion_producto/read");
 const updateRetroalimentacionProducto = require("../../components/retroalimentacion_producto/update");
 const viewRetroalimentacionProducto = require("../../components/retroalimentacion_producto/view");
+const retroalimentacionProductoPorProducto = require("../../components/retroalimentacion_producto/por-producto")
+
 router.post(
   "/",
   authMiddleware.authorize,
@@ -20,7 +22,9 @@ router.delete(
   authMiddleware.authorize,
   deleteRetroalimentacionProducto.deleteRetroalimentacionProducto
 );
+router.get("/producto/:idProducto", retroalimentacionProductoPorProducto.retroalimentacionProductoPorProducto);
 router.get("/", authMiddleware.authorize, readRetroalimentacionProducto.readRetroalimentacionProducto);
 router.get("/:id", authMiddleware.authorize, viewRetroalimentacionProducto.viewRetroalimentacionProducto);
+
 
 module.exports = router;

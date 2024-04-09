@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-faq',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.scss'
 })
-export class FaqComponent {
-
+export class FaqComponent implements OnInit {
+  ngOnInit(): void {
+    
+  }
 }

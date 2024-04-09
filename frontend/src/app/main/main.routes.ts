@@ -4,10 +4,13 @@ import { CategoriasComponent } from "./categorias/categorias.component";
 import { BuscarComponent } from "./buscar/buscar.component";
 import { ValoracionesComponent } from "./valoraciones/valoraciones.component";
 import { FaqComponent } from "./faq/faq.component";
+import { ProductoComponent } from "./producto/producto.component";
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "categorias", component: CategoriasComponent },
+  { path: "categorias/:idCategoria", component: CategoriasComponent },
+  { path: "productos/:idProducto", component: ProductoComponent },
   { path: "buscar", component: BuscarComponent },
   { path: "valoraciones", component: ValoracionesComponent },
   { path: "faq", component: FaqComponent },

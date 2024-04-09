@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
     this.loading = true;
     this.authSerivce.user$.subscribe(user => {
       this.user = user;
+      console.log(this.user);
       this.loading = false;
     }, err => {
       console.log(err);
