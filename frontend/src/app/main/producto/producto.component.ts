@@ -61,7 +61,8 @@ export class ProductoComponent implements OnInit {
           descripcion: resp.descripcion,
           proveedorId: resp.proveedor_id,
           categoria: resp.categoria_producto,
-          proveedor: resp.proveedor
+          proveedor: resp.proveedor,
+          enExistencia: resp.en_existencia
         };
         this.getComentarios();
       }, err => {
@@ -83,6 +84,7 @@ export class ProductoComponent implements OnInit {
   agregarAlCarrito(): void {
     if (!this.user) {
       this.router.navigate(["auth", "login"]);
+      return;
     }
     if (this.user.tipoUsuario !== "CLIENTE") {
       return;

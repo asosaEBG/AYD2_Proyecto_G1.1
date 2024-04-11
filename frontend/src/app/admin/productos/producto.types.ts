@@ -10,4 +10,5 @@ export interface Producto {
   proveedorId: string;
   categoria?: string;
   proveedor?: string;
+  enExistencia?: number;
 }

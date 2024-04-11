@@ -21,8 +21,8 @@ router.delete(
   deleteIngresoMercaderia.deleteIngresoMercaderia
 );
 router.get(
-  "/",
-  authMiddleware.authorize,
+  "/producto/:idProducto",
+  // authMiddleware.authorize,
   readIngresoMercaderia.readIngresoMercaderia
 );
 router.get(

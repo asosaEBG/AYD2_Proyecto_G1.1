@@ -8,8 +8,10 @@ import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../auth/auth.service';
 import { User } from '../../../auth/auth.types';
-import { take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { ConfirmActionComponent } from '../../../modals/confirm-action/confirm-action.component';
+import { S3Service } from '../../../s3.service';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-crear-orden',
@@ -32,7 +34,8 @@ export class CrearOrdenComponent implements OnInit {
     private location: Location,
     private router: Router,
     private authService: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private s3Service: S3Service
   ) {}
   
   get total(): number {
@@ -102,7 +105,56 @@ export class CrearOrdenComponent implements OnInit {
     modal.componentInstance.title = "Confirmar Compra";
     modal.componentInstance.description = "Estas seguro que quieres confirmar la compra?";
     modal.result.then(() => {
+      this.loading = true;
+      
+      let pdfUrl: string;
+      if (this.file) {
+        const pdfId = v4();
+        pdfUrl = `https://proyecto-2-ayd-2-g1.s3.amazonaws.com/${pdfId}`;
+        this.s3Service.uploadFileToBucket(this.file, "proyecto-2-ayd-2-g1", pdfId).pipe(take(1)).subscribe(resp => {
+          console.log("BUCKET SUCCESS", resp);
+        }, err => {
+          console.log("BUCKET ERROR", err);
+        });
+      }
 
+      const pedido = {
+        estado_pedido_id: 1,
+        oferta_id: null,
+        cliente_id: this.user.idCliente
+      };
+
+
+      this.clietSerivce.crearPedido(pedido).pipe(take(1), map(resp => resp.response_database.result.insertId)).subscribe(pedido_id => {
+        console.log("PEDIDO ID", pedido_id);
+        const detallePedido = {
+          detalles: this.carrito.carrito.productos.map(pro => ({ cantidad: pro.cantidad, pedido_id, producto_id: pro.producto_id }))
+        };
+        this.clietSerivce.crearDetallePedido(detallePedido).pipe(take(1)).subscribe((respDetalle) => {
+          console.log(respDetalle);
+          const pagoBody = {
+            detalle: pdfUrl ?? "No file.",
+            pedido_id,
+            metodo_pago_id: this.metodoPagoSeleccionadoId
+          };
+          this.clietSerivce.crearPago(pagoBody).pipe(take(1)).subscribe((respPago) => {
+            console.log("RESP CARRITO", respPago);
+            this.carrito.carrito.productos = []
+            this.clietSerivce.actualizarCarrito(this.user.idCarrito, this.carrito).pipe(take(1)).subscribe(respCarrito => {
+              console.log("RESP CARRITO", respCarrito);
+              this.loading = false;
+            }, err => {
+              console.log("ERROR CARRITO", err);
+            });
+          }, err => {
+            console.log("ERROR PAGO", err);
+          });
+        }, err => {
+          console.log("ERROR DETALLE PEDIDO", err);
+        });
+      }, err => {
+        console.log("ERROR PEDIDO", err);
+      });
     }, () => {});
   }
 

@@ -48,7 +48,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" role="button" *ngIf="user.tipoUsuario === 'CLIENTE' || user.tipoUsuario === 'COLABORADOR'" role="button" (click)="irAPerfil()">Ver Perfil</a></li>
-            <li><a class="dropdown-item" role="button" *ngIf="user.tipoUsuario === 'CLIENTE'">Mis Pedidos</a></li>
+            <li><a class="dropdown-item" role="button" *ngIf="user.tipoUsuario === 'CLIENTE'" [routerLink]="['cliente', 'ordenes']">Mis Pedidos</a></li>
             <li><a class="dropdown-item" role="button" *ngIf="user.tipoUsuario === 'CLIENTE'" [routerLink]="['cliente', 'metodos-pago']">Métodos de Pago</a></li>
             <li><hr class="dropdown-divider" *ngIf="user.tipoUsuario !== 'ADMINISTRADOR'"></li>
             <li><a class="dropdown-item" role="button" (click)="cerrarSesion()">Cerrar Sesión</a></li>

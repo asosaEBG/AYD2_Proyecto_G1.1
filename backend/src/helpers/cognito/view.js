@@ -90,3 +90,45 @@ module.exports.getUserAttributesByUsername = async (username) => {
     }
   });
 };
+
+module.exports.getUserAttributesByEmail= async (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      });
+      const params = {
+        UserPoolId: process.env.COGNITO_USER_POOL_ID,
+        email,
+      };
+      const cognitoidentityserviceprovider =
+        new AWS.CognitoIdentityServiceProvider();
+      const result = await cognitoidentityserviceprovider
+        .adminGetUser(params)
+        .promise();
+      let salida = {};
+      result.UserAttributes.map((actual, index) => {
+        if (actual.Name === "sub") {
+          salida.sub = actual.Value;
+        } else if (actual.Name === "email") {
+          salida.email = actual.Value;
+        }
+        if (index == result.UserAttributes.length - 1) {
+          salida.Username = result.Username;
+          salida.UserCreateDate = moment(result.UserCreateDate)
+            .tz("America/Guatemala")
+            .format("LLL");
+          salida.UserLastModifiedDate = moment(result.UserLastModifiedDate)
+            .tz("America/Guatemala")
+            .format("LLL");
+          resolve(salida);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+};
