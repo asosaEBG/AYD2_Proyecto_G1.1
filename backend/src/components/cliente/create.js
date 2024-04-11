@@ -1,5 +1,7 @@
 const query_format = require("../../helpers/database/mysql/operation/queryFormat");
 const register_on_cognito = require("../../helpers/cognito/create");
+const email_service = require("../../helpers/email/email");
+const check_usr_template = require("../../helpers/email/templates/check_usr");
 const createCliente = async (req, res) => {
   const {
     nombre,
@@ -31,7 +33,7 @@ const createCliente = async (req, res) => {
                 {
                   query: `INSERT INTO proyecto.usuario
                 (cognito_sub, estado_usuario_id, tipo_usuario_id)
-                VALUES( ?, 1, 3);`,
+                VALUES( ?, 3, 3);`,
                   inserts: [response_cognito.response.UserSub],
                 },
                 {
@@ -48,6 +50,13 @@ const createCliente = async (req, res) => {
                 },
               ])
               .then((response_database) => {
+                email_service.sendMail(
+                  email,
+                  "CONFIRMAR CUENTA EN CIBERVIDEOGAME",
+                  check_usr_template.getEmailHTML(
+                    response_cognito.response.UserSub
+                  )
+                );
                 return res.status(200).json({
                   cognito: response_cognito,
                   database: response_database,
