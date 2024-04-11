@@ -39,7 +39,6 @@ export class AuthService {
   login(body: any): Observable<any> {
     return this.httpClient.post(`${this.serverUrl}/auth/login`, body).pipe(
       catchError((err) => {
-        console.log(err);
         return of(false)
       }),
       switchMap((response: any) => {
@@ -56,8 +55,10 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.Username
+            username: userResponse.cognito.Username,
+            idCarrito: userResponse.database.carrito_id
           };
+          console.log(userResponse.database.estado_usuario);
         }, err => {
           console.log(err);
         });
@@ -90,7 +91,8 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.Username
+            username: userResponse.cognito.Username,
+            idCarrito: userResponse.database.carrito_id
           };
         }, err => {
           console.log(err);
@@ -103,6 +105,14 @@ export class AuthService {
 
   register(body: any): Observable<any> {
     return this.httpClient.post(`${this.serverUrl}/cliente`, body);
+  }
+
+  desactivar(username: string): Observable<any> {
+    return this.httpClient.get(`${this.serverUrl}/cliente/desactivar/${username}`);
+  }
+
+  recuperarPasswordEmail(body: any): Observable<any> {
+    return this.httpClient.post(`${this.serverUrl}/cliente/send-recovery`, body);
   }
 
   getUser(): Observable<any> {

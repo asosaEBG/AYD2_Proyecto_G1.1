@@ -34,7 +34,7 @@ export class AdminService {
   }
 
   obtenerProductoPorId(idProducto: string): Observable<any> {
-    return this.httpService.request(RequestMethod.GET, `/producto/${idProducto}`);
+    return this.httpService.request(RequestMethod.GET, `/producto/view/${idProducto}`);
   }
 
   actualizarProducto(idProducto: number, producto: any): Observable<any> {
@@ -47,5 +47,21 @@ export class AdminService {
 
   obtenerClientes(): Observable<any> {
     return this.httpService.request(RequestMethod.GET, "/cliente");
+  }
+
+  crearIngresoMercaderia(): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/ingreso_mercaderia");
+  }
+
+  crearEgreso(egresoBody: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, `/egreso`, egresoBody);
+  }
+
+  crearBulkExistencias(body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/existencia/bulk", body);
+  }
+
+  getMercaderiaPorProductoId(idProducto: number): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/ingreso_mercaderia/producto/${idProducto}`);
   }
 }

@@ -18,10 +18,12 @@ const viewProducto = async (req, res) => {
             proveedor_id,            
             costo,
             CONVERT(proveedor.nombre, CHAR) as proveedor,
-            CONVERT(categoria_producto.descripcion, CHAR) as categoria_producto
+            CONVERT(categoria_producto.descripcion, CHAR) as categoria_producto,
+            COUNT(e.id) AS en_existencia
       FROM proyecto.producto
       INNER JOIN categoria_producto on producto.categoria_producto_id = categoria_producto.id
       INNER JOIN proveedor on producto.proveedor_id = proveedor.id
+      INNER JOIN existencia e ON e.producto_id = producto.id and e.estado_existencia_id = 1
       WHERE producto.id = ?;
 `,
       [id]

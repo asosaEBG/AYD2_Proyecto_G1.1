@@ -12,14 +12,15 @@ const getUsr = async (req, res) => {
         usuario.id as id_usr,
         CONVERT(cognito_sub,CHAR) AS cognito_sub,         
         estado_usuario.descripcion as estado_usuario,
-        tipo_usuario.descripcion as tipo_usuario
+        tipo_usuario.descripcion as tipo_usuario,
+        IFNULL((select cliente.carrito_id from cliente where cliente.usuario_id = (select usuario.id from usuario where usuario.cognito_sub = ?)),0) as carrito_id
     FROM proyecto.usuario
     inner join estado_usuario on usuario.estado_usuario_id = estado_usuario.id
     inner join tipo_usuario on usuario.tipo_usuario_id = tipo_usuario.id
     WHERE usuario.cognito_sub = ?
   
   `,
-      [req.userData.sub, req.userData.sub, req.userData.sub]
+      [req.userData.sub, req.userData.sub, req.userData.sub, req.userData.sub]
     )
     .then((response_database) => {
       return res

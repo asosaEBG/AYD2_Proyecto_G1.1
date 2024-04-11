@@ -65,4 +65,8 @@ export class ProductosComponent implements OnInit {
   verProveedores(): void {
     this.router.navigate(["admin", "proveedores"]);
   }
+
+  verMercaderia(idProducto: number): void {
+    this.router.navigate(["admin", "productos", idProducto, "mercaderia"]);
+  }
 }

@@ -10,6 +10,10 @@ export class MainService {
     return this.httpService.request(RequestMethod.GET, "/categoria_producto");
   }
 
+  obtenerCategoriaPorId(idCategoria: string): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/categoria_producto/${idCategoria}`);
+  }
+
   obtenerValoraciones(): Observable<any> {
     return this.httpService.request(RequestMethod.GET, "/valoracion_pagina");
   }
@@ -27,7 +31,7 @@ export class MainService {
   }
   
   obtenerProductoPorId(idProducto: string): Observable<any> {
-    return this.httpService.request(RequestMethod.GET, `/producto/${idProducto}`);
+    return this.httpService.request(RequestMethod.GET, `/producto/view/${idProducto}`);
   }
 
   obtenerComentariosDeProducto(idProducto: string): Observable<any> {
@@ -41,11 +45,15 @@ export class MainService {
     return this.httpService.request(RequestMethod.DELETE, `/retroalimentacion_producto/${idComentario}`);
   }
 
-  buscar(): Observable<any> {
-    return this.httpService.request(RequestMethod.GET, "/producto");
+  buscar(nombre: string, fechaSort: string, precioSort: string): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/producto/buscar/${nombre}/${fechaSort}/${precioSort}`);
   }
 
   agregarAlCarrito(idCliente: number, carrito: any): Observable<any> {
     return this.httpService.request(RequestMethod.POST, `/carrito/use/${idCliente}`, carrito);
+  }
+
+  obtenerProductosPorCategoria(idCateria: string, precioSort: string, fechaSort: string, nombreSort: string): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/producto/categoria/${idCateria}/${precioSort}/${fechaSort}/${nombreSort}`);
   }
 }

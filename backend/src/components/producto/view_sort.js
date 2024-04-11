@@ -1,31 +1,33 @@
 const query_format = require("../../helpers/database/mysql/operation/queryFormat");
 
 const viewProductoSort = async (req, res) => {
-  const { name, precio, fecha_lanzamiento, orden_alfabetico } = req.params;
+  const { name, precio, fecha_lanzamiento } = req.params;
+  const lowerName = name.toLowerCase();
+  console.log("[LOWER NAME]", lowerName);
   query_format
     .queryFormat(
       `    
       SELECT 
             producto.id, 
-            CONVERT(nombre,CHAR) AS nombre,
-            CONVERT(descripcion,CHAR) AS descripcion,
-            CONVERT(portada,CHAR) AS portada,
-            precio,
+            CONVERT(producto.nombre,CHAR) AS nombre,
+            CONVERT(producto.descripcion,CHAR) AS descripcion,
+            CONVERT(producto.portada,CHAR) AS portada,
+            producto.precio,
             DATE_FORMAT(producto.fecha_registro,"%d/%m/%Y %r") AS fecha_registro, 
             DATE_FORMAT(producto.fecha_update,"%d/%m/%Y %r") AS fecha_update,
-            categoria_producto_id,
-            proveedor_id,            
-            costo,
+            producto.categoria_producto_id,
+            producto.proveedor_id,            
+            producto.costo,
             CONVERT(proveedor.nombre, CHAR) as proveedor,
             CONVERT(categoria_producto.descripcion, CHAR) as categoria_producto
       FROM proyecto.producto
-      where nombre like '%?%'
       INNER JOIN categoria_producto on producto.categoria_producto_id = categoria_producto.id
       INNER JOIN proveedor on producto.proveedor_id = proveedor.id
-      ORDER BY producto.precio ?, producto.fecha_registro ?, nombre ?
+      where LOWER(CONVERT(producto.nombre,CHAR)) like '%${lowerName}%'
+      ORDER BY producto.precio ${precio}, producto.fecha_registro ${fecha_lanzamiento}
       ;
     `,
-      [name, precio, fecha_lanzamiento, orden_alfabetico]
+      []
     )
     .then((response_database) => {
       return res.status(200).json({

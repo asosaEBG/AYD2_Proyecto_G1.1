@@ -27,7 +27,7 @@
           <tr *ngFor="let categoria of categorias">
             <td>{{categoria.descripcion}}</td>
             <td>
-              <button class="btn btn-sm btn-primary mx-3" ngbTooltip="Ver">
+              <button class="btn btn-sm btn-primary mx-3" ngbTooltip="Ver" (click)="verCategoria(categoria.id)">
                 <i class="bi bi-eye"></i>
               </button>
               <ng-container *ngIf="user">

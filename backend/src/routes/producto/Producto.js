@@ -12,21 +12,18 @@ router.post("/", authMiddleware.authorize, createProducto.createProducto);
 router.put("/:id", authMiddleware.authorize, updateProducto.updateProducto);
 router.delete("/:id", authMiddleware.authorize, deleteProducto.deleteProducto);
 router.get("/", readProducto.readProducto);
-router.get("/view/:id", authMiddleware.authorize, viewProducto.viewProducto);
+router.get("/view/:id", viewProducto.viewProducto);
 router.get(
   "/read/:precio/:fecha_lanzamiento/:orden_alfabetico",
-  authMiddleware.authorize,
   readProductoSort.readProductoSort
 );
 router.get(
-  "/view/:name/:precio/:fecha_lanzamiento/:orden_alfabetico",
-  authMiddleware.authorize,
+  "/buscar/:name/:precio/:fecha_lanzamiento",
   viewProductoSort.viewProductoSort
 );
 
 router.get(
-  "/view/:categoria_producto/:precio/:fecha_lanzamiento/:orden_alfabetico",
-  authMiddleware.authorize,
+  "/categoria/:categoria_producto/:precio/:fecha_lanzamiento/:orden_alfabetico",
   readProductoSortCategoria.readProductoSortCategoria
 );
 module.exports = router;
