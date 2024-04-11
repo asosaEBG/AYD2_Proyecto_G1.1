@@ -29,7 +29,7 @@ const validacion_pago = require("./validacion_pago/ValidacionPago");
 const valoracion_pagina = require("./valoracion_pagina/ValoracionPagina");
 const lista_deseos = require("./lista_deseos/ListaDeseos");
 const carrito = require("./carrito/carrito");
-
+const reports = require("./reports/Reports");
 router.use("/colaborador", colaborador);
 router.use("/cliente", cliente);
 router.use("/admin", admin);
@@ -60,5 +60,6 @@ router.use("/validacion_pago", validacion_pago);
 router.use("/valoracion_pagina", valoracion_pagina);
 router.use("/lista_deseos", lista_deseos);
 router.use("/carrito", carrito);
+router.use("/reports", reports);
 
 module.exports = router;
