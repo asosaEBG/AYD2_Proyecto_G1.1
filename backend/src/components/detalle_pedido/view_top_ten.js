@@ -14,7 +14,7 @@ const viewTopTen = async (req, res) => {
       from detalle_pedido 
       inner join producto on detalle_pedido.producto_id = producto.id
       group by producto.id 
-      order by ventas desc limit 5;
+      order by ventas desc limit 10;
 `
     )
     .then((response_database) => {
