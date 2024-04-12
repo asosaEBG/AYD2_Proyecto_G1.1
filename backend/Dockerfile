@@ -5,4 +5,4 @@ FROM node:latest
         COPY . .
         EXPOSE 9000
         VOLUME ["/node_modules"]
-        CMD ["node", "app.js"]
+        CMD ["node", "index.js"]
