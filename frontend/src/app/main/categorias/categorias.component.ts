@@ -9,6 +9,7 @@ import { User } from '../../auth/auth.types';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { CrearCategoriaComponent } from '../../modals/crear-categoria/crear-categoria.component';
 import { ConfirmActionComponent } from '../../modals/confirm-action/confirm-action.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categorias',
@@ -27,7 +28,8 @@ export class CategoriasComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private modalService: NgbModal,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.getUser();
@@ -73,5 +75,9 @@ export class CategoriasComponent implements OnInit {
     modal.result.then(result => {
       
     }, dismiss => {});
+  }
+
+  verCategoria(idCategoria: number): void {
+    this.router.navigate(["categorias", idCategoria]);
   }
 }

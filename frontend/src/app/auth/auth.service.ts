@@ -3,10 +3,11 @@ import { BehaviorSubject, Observable, ReplaySubject, catchError, of, switchMap, 
 import { HttpClient } from "@angular/common/http";
 import { User } from "./auth.types";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  private serverUrl: string = "http://localhost:9000";
+  private serverUrl: string = environment.serverUrl;
   private authenticated = false;
   private tokenSubject: BehaviorSubject<string>;
   private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
@@ -39,7 +40,6 @@ export class AuthService {
   login(body: any): Observable<any> {
     return this.httpClient.post(`${this.serverUrl}/auth/login`, body).pipe(
       catchError((err) => {
-        console.log(err);
         return of(false)
       }),
       switchMap((response: any) => {
@@ -56,8 +56,10 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.Username
+            username: userResponse.cognito.Username,
+            idCarrito: userResponse.database.carrito_id
           };
+          console.log(userResponse.database.estado_usuario);
         }, err => {
           console.log(err);
         });
@@ -90,7 +92,8 @@ export class AuthService {
             idCliente: userResponse.database.id_cliente,
             idColaborador: userResponse.database.id_colaborador,
             idUsr: userResponse.database.id_usr,
-            username: userResponse.cognito.Username
+            username: userResponse.cognito.Username,
+            idCarrito: userResponse.database.carrito_id
           };
         }, err => {
           console.log(err);
@@ -103,6 +106,18 @@ export class AuthService {
 
   register(body: any): Observable<any> {
     return this.httpClient.post(`${this.serverUrl}/cliente`, body);
+  }
+
+  desactivar(username: string): Observable<any> {
+    return this.httpClient.get(`${this.serverUrl}/cliente/desactivar/${username}`);
+  }
+
+  recuperarPasswordEmail(body: any): Observable<any> {
+    return this.httpClient.post(`${this.serverUrl}/cliente/send-recovery`, body);
+  }
+
+  reestablecerPassword(idSub: string, body: any): Observable<any> {
+    return this.httpClient.put(`${this.serverUrl}/cliente/${idSub}/reset-pwd`, body);
   }
 
   getUser(): Observable<any> {

@@ -20,4 +20,7 @@ export class EmpleadoService {
   obtenerEmpleados(): Observable<any> {
     return this.httpService.request(RequestMethod.GET, "/colaborador");
   }
+  enviarResetPassword(body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/colaborador/send-recovery", body);
+  }
 }

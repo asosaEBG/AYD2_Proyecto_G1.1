@@ -78,7 +78,7 @@
                   <dt class="form-label">Unidades Disponibles</dt>
               </div>
               <div class="col-lg">
-                  <p>{{54}}</p>
+                  <p>{{producto.enExistencia}}</p>
               </div>
           </div>
           <div class="row">
@@ -94,7 +94,7 @@
     <div class="col-lg-8">
         <div class="d-flex justify-content-between">
             <h3>Comentarios</h3>
-            <button class="btn btn-primary btn-sm" *ngIf="!showComentarioInput" (click)="showComentarioInput = true">Comentar</button>
+            <button class="btn btn-primary btn-sm" *ngIf="!showComentarioInput && user" (click)="showComentarioInput = true">Comentar</button>
         </div>
         <ng-container *ngIf="showComentarioInput">
             <div class="row">
@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="alert alert-info mt-3" *ngIf="comentarios.length === 0">
-            Aun no hay comentarios publicados para este libro.
+            Aun no hay comentarios publicados para este juego.
         </div>
     </div>
     <div class="col-lg-2"></div>

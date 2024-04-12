@@ -7,4 +7,5 @@ export interface User {
   idColaborador: number;
   idUsr: number;
   username: string;
+  idCarrito?: string;
 }

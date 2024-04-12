@@ -4,6 +4,8 @@ const { v4 } = require("uuid");
 const createValidacionPago = async (req, res) => {
   const { colaborador_id, pago_id } = req.body;
 
+  console.log("colaboradorId", colaborador_id);
+
   let query_array = [
     {
       query: `

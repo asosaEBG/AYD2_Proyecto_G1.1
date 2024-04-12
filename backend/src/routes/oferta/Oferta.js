@@ -8,7 +8,7 @@ const viewOferta = require("../../components/oferta/view");
 router.post("/", authMiddleware.authorize, createOferta.createOferta);
 router.put("/:id", authMiddleware.authorize, updateOferta.updateOferta);
 router.delete("/:id", authMiddleware.authorize, deleteOferta.deleteOferta);
-router.get("/", authMiddleware.authorize, readOferta.readOferta);
+router.get("/", readOferta.readOferta);
 router.get("/:id", authMiddleware.authorize, viewOferta.viewOferta);
 
 module.exports = router;

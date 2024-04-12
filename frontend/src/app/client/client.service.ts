@@ -37,4 +37,24 @@ export class ClientService {
   actualizarCarrito(idCarrito: string, carrito: any): Observable<any> {
     return this.httpService.request(RequestMethod.PUT, `/carrito/${idCarrito}`, carrito);
   }
+
+  crearPedido(pedido: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/pedido", pedido);
+  }
+
+  crearDetallePedido(detallesPedido: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/detalle_pedido", detallesPedido);
+  }
+
+  crearPago(pago: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/pago", pago);
+  }
+
+  obtenerPedidosDeCliente(idCliente: number): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/pedido/cliente/${idCliente}`);
+  }
+
+  obtenerPedidoPorId(idPedido): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/pedido/${idPedido}`);
+  }
 }

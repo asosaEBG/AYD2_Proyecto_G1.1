@@ -9,6 +9,6 @@ router.post("/",authMiddleware.authorize, createCategoriaProducto.createCategori
 router.put("/:id",authMiddleware.authorize, updateCategoriaProducto.updateCategoriaProducto);
 router.delete("/:id",authMiddleware.authorize, deleteCategoriaProducto.deleteCategoriaProducto);
 router.get("/", readCategoriaProducto.readCategoriaProducto);
-router.get("/:id",authMiddleware.authorize, viewCategoriaProducto.viewCategoriaProducto);
+router.get("/:id", viewCategoriaProducto.viewCategoriaProducto);
 
 module.exports = router;

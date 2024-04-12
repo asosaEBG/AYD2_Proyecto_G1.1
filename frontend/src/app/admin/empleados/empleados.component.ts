@@ -1,12 +1,13 @@
 import { DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { EmpleadoService } from '../../empleado/empleado.service';
-import { take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import moment from "moment";
 import { Router, RouterLink } from '@angular/router';
 import { alarm } from 'ngx-bootstrap-icons';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmActionComponent } from '../../modals/confirm-action/confirm-action.component';
 
 const icons = { alarm };
 
@@ -25,7 +26,8 @@ export class EmpleadosComponent implements OnInit {
   
   constructor(
     private empleadoService: EmpleadoService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -53,5 +55,23 @@ export class EmpleadosComponent implements OnInit {
   }
   editarEmpleado(idEmpleado: number): void {
     this.router.navigate(["admin", "empleados", idEmpleado]);
+  }
+
+  reestablecerPassword(empleado: any): void {
+    const modal = this.modalService.open(ConfirmActionComponent);
+    modal.componentInstance.title = "Reestablecer Contraseña";
+    modal.componentInstance.description = "¿Quires reestablecer la contraseña de este empleado?";
+    modal.result.then(result => {
+      this.empleadoService.obtenerPorId(empleado.id).pipe(take(1), map(resp => resp.response_cognito.Username)).subscribe(codigoEmpleado => {
+        console.log(codigoEmpleado);
+        this.empleadoService.enviarResetPassword({username: codigoEmpleado}).pipe(take(1)).subscribe(resp => {
+          console.log(resp);
+        }, err => {
+          console.log("ERROR ENVIO DE RESET PASSOWRD", err);
+        });
+      }, err => {
+        console.log(err);
+      });
+    }, dismiss => {});
   }
 }

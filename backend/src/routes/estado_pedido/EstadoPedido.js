@@ -7,7 +7,7 @@ const updateEstadoPedido = require("../../components/estado_pedido/update");
 const viewEstadoPedido = require("../../components/estado_pedido/view");
 router.post(
   "/",
-  authMiddleware.authorize,
+  // authMiddleware.authorize,
   createEstadoPedido.createEstadoPedido
 );
 router.put(
