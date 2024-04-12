@@ -25,6 +25,7 @@ Para utilizar este manual, simplemente navega por las diferentes secciones segú
 
 ## Contenido de la Página Principal
 
+![home](./img-documentacion/capturas/home.JPG)
 ### 1. Top de Productos Más Vendidos
 En esta sección, podrás encontrar los productos que han tenido el mayor volumen de ventas dentro de un período de tiempo específico. Esto te ayudará a identificar rápidamente los artículos populares y de alta demanda.
 
@@ -37,11 +38,15 @@ En esta sección, se muestran cualquier promoción, descuento o oferta especial 
 ### 4. Categorías
 Se presenta una lista de categorías de productos disponibles en la tienda, como "videojuegos de acción", "consolas", "accesorios", etc. Esto facilita la navegación a los usuarios interesados en una categoría específica.
 
+![categorias](./img-documentacion/capturas/categorias.JPG)
+
 ### 5. Filtrado
 Puedes filtrar los productos por precio, fecha de lanzamiento y orden alfabético para encontrar rápidamente lo que estás buscando entre una gran variedad de productos.
 
 ### 6. Barra de Búsqueda
 Utiliza la barra de búsqueda para encontrar productos específicos ingresando términos de búsqueda. Esto te proporciona una forma rápida de encontrar un artículo en particular sin tener que navegar por todas las categorías.
+
+![busqueda](./img-documentacion/capturas/buscar.JPG)
 
 ### 7. Inicio de Sesión y Registro
 Si ya tienes una cuenta, puedes iniciar sesión utilizando el botón correspondiente. Si eres nuevo en nuestro sitio, puedes registrarte utilizando el botón de registro.
@@ -58,7 +63,11 @@ Si tienes alguna pregunta sobre la plataforma, los productos o el proceso de com
 ### 11. Información Detallada de Productos
 Al hacer clic en un producto específico, se muestra una página con información detallada sobre ese producto, incluyendo descripción, disponibilidad, precio, valoraciones de los usuarios, etc.
 
+![producto](./img-documentacion/capturas/producto.JPG)
+
 ## Inicio de Sesión
+
+![login](./img-documentacion/capturas/login.JPG)
 
 ### 1. Módulo Exclusivo para el Administrador
 Si eres el administrador del sistema, utiliza el módulo exclusivo para acceder a las funciones administrativas. Ingresa tus credenciales de administrador para gestionar el inventario, generar informes y controlar usuarios y empleados.
@@ -70,6 +79,8 @@ Los empleados deben utilizar el módulo designado con permisos específicos. Ing
 Los usuarios registrados pueden iniciar sesión utilizando el módulo de usuario. Ingresa tu dirección de correo electrónico y contraseña para acceder a tu cuenta, ver historial de compras, gestionar perfil y realizar compras.
 
 ## Registro
+
+![registro](./img-documentacion/capturas/registro.JPG)
 
 ### 1. Registro de Usuarios con Información Detallada
 Si eres un nuevo usuario, utiliza la opción de registro. Proporciona la información requerida, como nombre, dirección de correo electrónico, contraseña, y cualquier otro dato necesario para crear tu cuenta. Haz clic en "Registrar" para completar el proceso.
@@ -93,6 +104,8 @@ El módulo de administrador te permite supervisar y gestionar todo el inventario
 - Ve a la sección de "Gestión del Inventario" en el panel de administrador.
 - Aquí podrás agregar nuevos productos, eliminar productos obsoletos y actualizar la información de los productos existentes.
 - Además, podrás realizar un seguimiento del stock disponible y recibir notificaciones sobre productos con bajo inventario.
+
+![prod](./img-documentacion/capturas/productos.JPG)
 
 ### 2. Generación de Reportes
 Con esta función, puedes generar informes detallados sobre diferentes aspectos del negocio. Sigue estos pasos:
@@ -119,6 +132,8 @@ Este módulo te permite gestionar a los empleados del negocio. Sigue estos pasos
 - Aquí podrás contratar nuevos empleados, asignar tareas, supervisar el desempeño y gestionar cualquier problema relacionado con el personal.
 - Mantén actualizada la información de los empleados y asegúrate de que estén cumpliendo con sus responsabilidades asignadas.
 
+![empleados](./img-documentacion/capturas/empleados.JPG)
+
 ### 6. Actualización de Stock
 Como administrador, es tu responsabilidad mantener actualizado el inventario de productos. Sigue estos pasos para actualizar el stock:
 - Accede a la sección de "Actualización de Stock" en el panel de administrador.
@@ -131,6 +146,8 @@ Como administrador, es tu responsabilidad mantener actualizado el inventario de 
 
 ### 1. Gestión de Pedidos
 Los empleados tienen la capacidad de gestionar los pedidos realizados por los usuarios. Esto incluye revisar los pedidos pendientes, confirmar los pedidos, realizar seguimiento de los pedidos en tránsito y manejar cualquier problema relacionado con los pedidos.
+
+![pedidos](./img-documentacion/capturas/pedidos.JPG)
 
 ### 2. Validación de Pagos
 Los empleados son responsables de verificar y validar los pagos realizados por los usuarios. Esto implica revisar la información de pago, autorizar transacciones y abordar cualquier problema relacionado con los pagos para garantizar un proceso de compra seguro y sin problemas.
