@@ -1246,3 +1246,112 @@ npm install
 ```
 ng serve
 ```
+
+
+BACKEND
+-------------------------------
+
+Este backend proporciona un conjunto de herramientas y funcionalidades para la gestión de usuarios en una aplicación web moderna. Se basa en el uso de tecnologías como Cognito User Pool para la autenticación y autorización, una base de datos relacional para el almacenamiento de datos de usuario, y un marco de trabajo front-end moderno (RAngular) para la interfaz de usuario.
+
+### Estructura del Proyecto
+
+El proyecto está organizado en los siguientes directorios:
+
+-   `cognito`: Contiene funciones de ayuda para interactuar con el pool de usuarios de Cognito.
+-   `database`: Contiene funciones para interactuar con la base de datos relacional.
+-   `routes`: Contiene las rutas de la aplicación web y la lógica asociada a cada ruta.
+-   `utils`: Contiene funciones de utilidad generales.
+-   `components`: Contiene el código todos los CRUDS implementados.
+
+### Funcionalidades
+
+El proyecto ofrece las siguientes funcionalidades:
+
+Autenticación de Usuario
+
+-   Registro de usuario: Permite crear nuevos usuarios en el pool de usuarios de Cognito.
+-   Inicio de sesión: Permite a los usuarios registrados iniciar sesión en la aplicación web utilizando sus credenciales de Cognito.
+-   Cierre de sesión: Permite a los usuarios cerrar sesión en la aplicación web.
+
+Gestión de Bases de datos
+
+-   Consulta de registros: Permite consultar una lista de registros
+-   Detalle de registros: Permite consultar la información detallada de un registro específico.
+-   Creación de registros: Permite crear un nuevo registro en el sistema y almacenarlo en la base de datos.
+-   Actualización de registro: Permite modificar la información de un registro existente en el sistema.
+-   Eliminación de registro: Permite eliminar un registro del sistema.
+
+### Tecnologías Utilizadas
+-   Back-end:
+    -   Lenguaje de programación: Node.js
+    -   Framework: Express.js
+-   Autenticación:
+    -   Cognito User Pool
+-   Base de datos:
+    -   Base de datos relacional (MySQL)
+    -   Base de datos no relacional (DynamoDb)
+
+### Instalación
+1. Clonar el repositorio de de github con el siguiente comando
+```
+git clone https://github.com/asosaEBG/AYD2_Proyecto_G1.1.git
+``` 
+
+2. Instalar los paquetes de node y sus dependencias.
+```
+npm install
+``` 
+
+3. Ejecutar el proyecto con el siguiente comando:
+```
+npm run dev
+```
+`# Dockerización de Proyecto Angular-Node.js
+
+Este documento describe los pasos necesarios para dockerizar un proyecto que utiliza Angular para el frontend y Node.js para el backend.
+
+## Requisitos previos
+
+- Docker instalado en tu sistema.
+
+## Dockerizar el Backend Node.js
+
+### Paso 1: Construir la imagen
+
+```bash
+sudo docker build . -t node-backend `
+
+```
+
+### Paso 2: Ejecutar el contenedor
+
+
+`sudo docker run -d --restart unless-stopped --name=node-back-end --env-file .env -p 9000:9000 -v ${pwd}:/ node-backend`
+
+-   `-d`: Ejecuta el contenedor en segundo plano.
+-   `--restart unless-stopped`: Reinicia el contenedor automáticamente a menos que se detenga explícitamente.
+-   `--name=node-back-end`: Asigna un nombre al contenedor.
+-   `--env-file .env`: Carga las variables de entorno desde un archivo `.env`.
+-   `-p 9000:9000`: Mapea el puerto 9000 del contenedor al puerto 9000 del host.
+-   `-v ${pwd}:/`: Monta el directorio actual del host en el contenedor.
+
+Dockerizar el Frontend Angular
+------------------------------
+
+### Paso 1: Construir la imagen
+
+bashCopy code
+
+`sudo docker build -t angular-nginx .`
+
+### Paso 2: Ejecutar el contenedor
+
+bashCopy code
+
+`sudo docker run -d --restart unless-stopped --name=angular-app -p 80:80 0a14f863bf68`
+
+-   `-d`: Ejecuta el contenedor en segundo plano.
+-   `--restart unless-stopped`: Reinicia el contenedor automáticamente a menos que se detenga explícitamente.
+-   `--name=angular-app`: Asigna un nombre al contenedor.
+-   `-p 80:80`: Mapea el puerto 80 del contenedor al puerto 80 del host.
+
