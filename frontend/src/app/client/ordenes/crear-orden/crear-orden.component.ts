@@ -121,17 +121,13 @@ export class CrearOrdenComponent implements OnInit {
       const pedido = {
         estado_pedido_id: 1,
         oferta_id: null,
-        cliente_id: this.user.idCliente
+        cliente_id: this.user.idCliente,
+        detalle_pedido: this.carrito.carrito.productos.map(pro => ({ cantidad: pro.cantidad, producto_id: pro.producto_id }))
       };
 
 
-      this.clietSerivce.crearPedido(pedido).pipe(take(1), map(resp => resp.response_database.result.insertId)).subscribe(pedido_id => {
+      this.clietSerivce.crearPedido(pedido).pipe(take(1), map(resp => resp.response_pedido.result.insertId)).subscribe(pedido_id => {
         console.log("PEDIDO ID", pedido_id);
-        const detallePedido = {
-          detalles: this.carrito.carrito.productos.map(pro => ({ cantidad: pro.cantidad, pedido_id, producto_id: pro.producto_id }))
-        };
-        this.clietSerivce.crearDetallePedido(detallePedido).pipe(take(1)).subscribe((respDetalle) => {
-          console.log(respDetalle);
           const pagoBody = {
             detalle: pdfUrl ?? "No file.",
             pedido_id,
@@ -143,15 +139,39 @@ export class CrearOrdenComponent implements OnInit {
             this.clietSerivce.actualizarCarrito(this.user.idCarrito, this.carrito).pipe(take(1)).subscribe(respCarrito => {
               console.log("RESP CARRITO", respCarrito);
               this.loading = false;
+              this.router.navigate(["cliente", "ordenes"]);
             }, err => {
               console.log("ERROR CARRITO", err);
             });
           }, err => {
             console.log("ERROR PAGO", err);
           });
-        }, err => {
-          console.log("ERROR DETALLE PEDIDO", err);
-        });
+
+        // const detallePedido = {
+        //   detalles: this.carrito.carrito.productos.map(pro => ({ cantidad: pro.cantidad, pedido_id, producto_id: pro.producto_id }))
+        // };
+        // this.clietSerivce.crearDetallePedido(detallePedido).pipe(take(1)).subscribe((respDetalle) => {
+        //   console.log(respDetalle);
+        //   const pagoBody = {
+        //     detalle: pdfUrl ?? "No file.",
+        //     pedido_id,
+        //     metodo_pago_id: this.metodoPagoSeleccionadoId
+        //   };
+        //   this.clietSerivce.crearPago(pagoBody).pipe(take(1)).subscribe((respPago) => {
+        //     console.log("RESP CARRITO", respPago);
+        //     this.carrito.carrito.productos = []
+        //     this.clietSerivce.actualizarCarrito(this.user.idCarrito, this.carrito).pipe(take(1)).subscribe(respCarrito => {
+        //       console.log("RESP CARRITO", respCarrito);
+        //       this.loading = false;
+        //     }, err => {
+        //       console.log("ERROR CARRITO", err);
+        //     });
+        //   }, err => {
+        //     console.log("ERROR PAGO", err);
+        //   });
+        // }, err => {
+        //   console.log("ERROR DETALLE PEDIDO", err);
+        // });
       }, err => {
         console.log("ERROR PEDIDO", err);
       });

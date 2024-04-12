@@ -50,7 +50,6 @@ export class MercaderiaComponent implements OnInit {
           categoria: resp.categoria_producto,
           proveedor: resp.proveedor,
         };
-        console.log(this.producto);
         this.getMercaderias();    
       }, err => {
         console.log(err);
@@ -61,7 +60,6 @@ export class MercaderiaComponent implements OnInit {
   getMercaderias(): void {
     this.loading = true;
     this.adminService.getMercaderiaPorProductoId(this.producto.id).pipe(take(1), map(resp => resp.response_database.result)).subscribe(ingresos => {
-      console.log(ingresos);
       this.ingresos = ingresos;
       this.loading = false;
     }, err => {
@@ -73,30 +71,43 @@ export class MercaderiaComponent implements OnInit {
     const modal = this.modalService.open(IngresoMercaderiaComponent);
     modal.result.then(unidades => {
       this.loading = true;
-      this.adminService.crearIngresoMercaderia().pipe(take(1), map(resp => resp.response_database.result.insertId)).subscribe(ingreso_mercaderia_id => {
-        console.log(ingreso_mercaderia_id);
-        const egresoBody = {
-          monto: this.producto.costo * unidades,
-          ingreso_mercaderia_id
-        };
-        this.adminService.crearEgreso(egresoBody).pipe(take(1)).subscribe(() => {
-          const existenciaBody = {
-            cantidad: unidades,
-            producto_id: this.producto.id,
-            estado_existencia_id: 1,
-            ingreso_mercaderia_id
-          };
-          this.adminService.crearBulkExistencias(existenciaBody).pipe(take(1)).subscribe(resp => {
-            this.getMercaderias();
-          }, err => {
-            console.log("[ERROR BULK EXISTENCIA]", err);
-          });
-        }, err => {
-          console.log("[ERROR EGRESO]", err);
-        });
+
+      const existenciaBody = {
+        cantidad: unidades,
+        producto_id: this.producto.id,
+        monto: this.producto.costo * unidades
+      };
+
+      this.adminService.crearBulkExistencias(existenciaBody).pipe(take(1)).subscribe(resp => {
+        console.log("RESP EXISTENCIA", resp);
+        this.getMercaderias();
       }, err => {
-        console.log("[ERROR INGRESO MERCADERIA]", err);
+        console.log("[ERROR BULK EXISTENCIA]", err);
       });
+      // this.adminService.crearIngresoMercaderia().pipe(take(1), map(resp => resp.response_database.result.insertId)).subscribe(ingreso_mercaderia_id => {
+      //   console.log(ingreso_mercaderia_id);
+        // const egresoBody = {
+        //   monto: this.producto.costo * unidades,
+        //   ingreso_mercaderia_id
+        // };
+        // this.adminService.crearEgreso(egresoBody).pipe(take(1)).subscribe(() => {
+        //   const existenciaBody = {
+        //     cantidad: unidades,
+        //     producto_id: this.producto.id,
+        //     estado_existencia_id: 1,
+        //     ingreso_mercaderia_id
+        //   };
+        //   this.adminService.crearBulkExistencias(existenciaBody).pipe(take(1)).subscribe(resp => {
+        //     this.getMercaderias();
+        //   }, err => {
+        //     console.log("[ERROR BULK EXISTENCIA]", err);
+        //   });
+        // }, err => {
+        //   console.log("[ERROR EGRESO]", err);
+        // });
+      // }, err => {
+      //   console.log("[ERROR INGRESO MERCADERIA]", err);
+      // });
     }, dismiss => {});
   }
 

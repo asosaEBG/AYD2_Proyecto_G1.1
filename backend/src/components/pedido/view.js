@@ -10,20 +10,34 @@ const viewPedido = async (req, res) => {
           fecha_update,
           DATE_FORMAT(pedido.fecha_registro,"%d/%m/%Y %r") AS fechaRegistro,
           DATE_FORMAT(pedido.fecha_update,"%d/%m/%Y %r") AS fechaUpdate,
-          correlativo,
+          CONVERT(pedido.correlativo, CHAR) AS correlativo,
           estado_pedido_id,
           oferta_id,
           cliente_id
-      FROM proyecto.pedido;
+      FROM proyecto.pedido
       where pedido.id = ?
 `,
       [id]
     )
     .then((response_database) => {
       if (response_database.result.length > 0) {
-        return res.status(200).json({
-          response_database,
-        });
+        query_format.queryFormat(`
+        SELECT
+          dp.id AS detalle_pedido_id,
+          dp.cantidad,
+          CONVERT(p.nombre, CHAR) AS nombre,
+          p.precio
+        FROM detalle_pedido dp
+        INNER JOIN producto p ON p.id = dp.producto_id
+        WHERE dp.pedido_id = ${id}
+        `).then(response_detalle => {
+          const pedido = response_database.result[0];
+          pedido["detalles"] = response_detalle.result;
+          return res.status(200).json({pedido});
+        }).catch(error => {
+          console.log(error);
+          return res.status(500).json({ log: error });
+        })
       } else {
         return res.status(200).json({ log: "PEDIDO NO ENCONTRADO" });
       }

@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent, canActivate: [noAuthGuard] },
   { path: "register", component: RegisterComponent, canActivate: [noAuthGuard] },
   { path: "forgot-password", component: ForgotPasswordComponent, canActivate: [noAuthGuard] },
-  { path: "set-password", component: SetPasswordComponent, canActivate: [noAuthGuard] },
+  { path: "recovery/:idCliente", component: SetPasswordComponent, canActivate: [noAuthGuard] },
   { path: "**", redirectTo: "login" },
 ];
 

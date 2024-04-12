@@ -29,7 +29,9 @@ const readPedidoPorCliente = async (req, res) => {
     .then((res_pedidos) => {
 
       const pedidosIds = res_pedidos.result.map(pedido => pedido.id);
-
+      if (pedidosIds.length === 0) {
+        return res.status(200).json({ response_database: [] });
+      }
       query.query(
         `SELECT dp.cantidad, CONVERT(p.nombre, CHAR) AS nombre, p.precio, dp.pedido_id FROM proyecto.detalle_pedido dp JOIN proyecto.producto p ON p.id = dp.producto_id WHERE dp.pedido_id IN (${pedidosIds.join(",")})`
       ).then(res_detalles => {

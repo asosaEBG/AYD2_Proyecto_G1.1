@@ -30,20 +30,31 @@
         <td>{{pedido.correlativo}}</td>
         <td>{{pedido.fecha_registro | date}}</td>
         <td>
-          <span class="badge" [ngClass]="{ 'text-bg-warning': pedido.estado_pedido_id === 1, 'text-bg-success': pedido.estado_pedido_id === 2, 'text-bg-danger': pedido.estado_pedido_id === 3 }">
+          <!-- <span class="badge" [ngClass]="{ 'text-bg-warning': pedido.estado_pedido_id === 1, 'text-bg-success': pedido.estado_pedido_id === 2, 'text-bg-danger': pedido.estado_pedido_id === 3 }">
             {{ pedido.estado_pedido_id === 1 ? 'PENDIENTE' : ( pedido.estado_pedido_id === 2 ? 'AUTORIZADO' : 'RECHAZADO' ) }}
-          </span>
+          </span> -->
+          <span class="badge text-bg-warning" *ngIf="pedido.estado_pedido_id === 1">PENDIENTE</span>
+          <span class="badge text-bg-primary" *ngIf="pedido.estado_pedido_id === 2">EN RUTA</span>
+          <span class="badge text-bg-danger" *ngIf="pedido.estado_pedido_id === 3">RECHAZADO</span>
+          <span class="badge text-bg-success" *ngIf="pedido.estado_pedido_id === 4">ENTREGADO</span>
         </td>
         <td>{{pedido.tipo_metodo_pago}} {{pedido.detalle_tarjeta}}</td>
         <td>{{pedido.monto | currency: 'Q'}}</td>
-        <td>
-          <button class="btn btn-sm btn-secondary" *ngIf="pedido.tipo_metodo_pago === 'TRANSFERENCIA'" ngbTooltip="Ver constancia de pago" (click)="verCV(pedido.detalle_pago)">
+        <td class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary" (click)="verOrden(pedido)" ngbTooltip="Ver productos">
             <i class="bi bi-eye"></i>
+          </button>
+          <button class="btn btn-sm btn-secondary" *ngIf="pedido.tipo_metodo_pago === 'TRANSFERENCIA'" ngbTooltip="Ver constancia de pago" (click)="verCV(pedido.detalle_pago)">
+            <i class="bi bi-filetype-pdf"></i>
           </button>
         </td>
       </tr>
     </tbody>
 
   </table>
+
+  <div class="alert alert-warning" *ngIf="!loading && pedidos.length === 0">
+    Aun no tienes pedidos registrados.
+  </div>
 
 </div>

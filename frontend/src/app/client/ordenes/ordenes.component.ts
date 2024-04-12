@@ -70,4 +70,9 @@ export class OrdenesComponent implements OnInit {
     modal.componentInstance.pdfLink = safeUrl;
     modal.result.then(result => {}, dismiss => {});
   }
+
+  verOrden(orden: any): void {
+    console.log(orden);
+    this.router.navigate(["cliente", "ordenes", orden.id]);
+  }
 }

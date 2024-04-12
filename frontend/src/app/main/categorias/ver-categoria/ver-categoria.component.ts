@@ -59,6 +59,7 @@ export class VerCategoriaComponent implements OnInit {
 
   getProductos(): void {
     this.loading = true;
+    console.log(this.selectedNameSort);
     
     this.mainService.obtenerProductosPorCategoria(this.categoriaId, this.selectedPriceSort, this.selectedFechaSort, this.selectedNameSort).pipe(take(1), map(resp => resp.response_database.result)).subscribe(resp => {
       console.log(resp);
