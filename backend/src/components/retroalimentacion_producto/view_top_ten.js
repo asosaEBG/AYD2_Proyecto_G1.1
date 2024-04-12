@@ -14,7 +14,7 @@ const viewTopTen = async (req, res) => {
       FROM retroalimentacion_producto
       inner join producto on retroalimentacion_producto.producto_id  = producto.id
       group by producto.id 
-      order by avg_valoracion desc limit 5;
+      order by avg_valoracion desc limit 10;
 `
     )
     .then((response_database) => {
