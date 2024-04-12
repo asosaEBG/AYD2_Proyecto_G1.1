@@ -7,7 +7,7 @@ const updateValidacionPago = require("../../components/validacion_pago/update");
 const viewValidacionPago = require("../../components/validacion_pago/view");
 router.post(
   "/",
-  authMiddleware.authorize,
+  // authMiddleware.authorize,
   createValidacionPago.createValidacionPago
 );
 router.put(

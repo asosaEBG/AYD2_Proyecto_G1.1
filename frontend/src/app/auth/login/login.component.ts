@@ -10,7 +10,7 @@ import { take } from 'rxjs';
   templateUrl: './login.component.html',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [FormsModule, ReactiveFormsModule, NgIf, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {
@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showAlert: boolean = false;
   alertMessage: string = "";
+
+  intentos = 0;
+  username = "";
   
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
 
@@ -58,15 +61,39 @@ export class LoginComponent implements OnInit {
       username: this.loginForm.get("username").value,
       password: this.loginForm.get("password").value
     };
+
+    if (this.username !== loginBody.username) {
+      this.intentos = 0
+    }
+
+    if (this.intentos === 0) {
+      this.username = loginBody.username;
+    }
+
+    if (this.username === loginBody.username) {
+      this.intentos++;
+    }
+
+
+    // this.username = loginBody.username;
     this.authService.login(loginBody).pipe(take(1)).subscribe(resp => {
       console.log(resp);
       this.showAlert = false;
       this.router.navigate(["home"]);
     }, err => {
-      console.log(err);
       this.loginForm.enable();
-      this.alertMessage = err.error.message;
       this.showAlert = true;
+      this.alertMessage = "Credenciales Invalidas";
+      console.log("show alert true");
+      if (this.intentos > 5) {
+        this.authService.desactivar(this.username).pipe(take(1)).subscribe(resp => {
+          console.log(resp);
+          this.showAlert = true;
+          this.alertMessage = `Usuario ${this.username} bloqueado por exceder límite de intentos de inicio de sesión.`;
+        }, err => {
+          console.log(err);
+        });
+      }
     });
     
   }

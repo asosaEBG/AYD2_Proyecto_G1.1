@@ -9,7 +9,8 @@ const viewTopTen = async (req, res) => {
         convert(producto.nombre, char) as producto,
         convert(producto.descripcion , char) as descripcion_producto,
         convert(producto.portada , char) as portada_producto,
-        producto.precio
+        producto.precio,
+        producto.id
       FROM retroalimentacion_producto
       inner join producto on retroalimentacion_producto.producto_id  = producto.id
       group by producto.id 

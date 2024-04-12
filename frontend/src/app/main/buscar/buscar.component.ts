@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-buscar',
@@ -16,13 +17,17 @@ import { take } from 'rxjs';
 })
 export class BuscarComponent implements OnInit {
   
-  textoBuscar: string = "asdf";
+  selectedPriceSort = "ASC";
+  selectedFechaSort = "ASC";
+
+  textoBuscar: string = "";
   productos: any[] = [];
   loading: boolean = false;
 
   constructor(
     private mainService: MainService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   
@@ -36,7 +41,7 @@ export class BuscarComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.mainService.buscar().pipe(take(1)).subscribe(resp => {
+    this.mainService.buscar(this.textoBuscar, this.selectedPriceSort, this.selectedFechaSort).pipe(take(1)).subscribe(resp => {
       this.productos = resp.response_database.result;
       console.log(this.productos);
       this.loading = false;
@@ -47,5 +52,14 @@ export class BuscarComponent implements OnInit {
 
   verProducto(idProducto: number): void {
     this.router.navigate(["productos", idProducto]);
+  }
+
+  onChangeFechaSort(): void {
+    this.selectedFechaSort = this.selectedFechaSort === "ASC" ? "DESC" : "ASC";
+    this.buscar();
+  }
+  onChangePrecioSort(): void {
+    this.selectedPriceSort = this.selectedPriceSort === "ASC" ? "DESC" : "ASC";
+    this.buscar();
   }
 }

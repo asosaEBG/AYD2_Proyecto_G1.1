@@ -35,8 +35,8 @@ const update_password = async (usr) => {
       });
       const params = {
         UserPoolId: process.env.COGNITO_USER_POOL_ID,
-        Username: usr.username,
-        Password: usr.password,
+        Username: usr.Username,
+        Password: usr.Password,
         Permanent: true,
       };
       const Cognito = new AWS.CognitoIdentityServiceProvider();

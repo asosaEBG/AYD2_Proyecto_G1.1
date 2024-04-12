@@ -16,7 +16,7 @@ const updateOferta = async (req, res) => {
         oferta.monto,
         oferta.fecha_vencimiento,
         oferta.producto_id,
-        oferta.estado_oferta_id,
+        oferta.estado_oferta_id
       FROM proyecto.oferta   
         where oferta.id = ?
         `,

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col-lg-10">
-      <h1>Crear Orden</h1>
+      <h1>Crear Pedido</h1>
     </div>
     <div class="col-lg">
       <div class="d-grid gap-2">
@@ -60,7 +60,11 @@
             <div class="alert alert-warning mt-3" >
               Es necesario subir un comprobante de la transferencia en formato PDF para corroborar la validez del pago.
             </div>
-            <input type="file" class="form-control" (change)="onCVSelected($event)">
+            <div class="row">
+              <div class="col-lg">
+                <input type="file" class="form-control" (change)="onCVSelected($event)">
+              </div>
+            </div>
           </ng-container>
         </ng-container>
         <button class="btn btn-primary mt-3" [disabled]="!metodoPagoSeleccionadoId" (click)="confirmar()">Confirmar</button>

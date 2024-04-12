@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgClass, NgIf } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-set-password',
@@ -17,16 +18,20 @@ export class SetPasswordComponent {
   setPasswordForm: FormGroup;
   showAlert: boolean = false;
   alertMessage: string = "";
-  
+  idCliente: string;
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.createForm();
+    this.activatedRoute.params.pipe(take(1)).subscribe(params => {
+      this.idCliente = params["idCliente"];
+      this.createForm();
+    });
   }
 
   get notValidRepeatPassowrd(): boolean {
@@ -56,29 +61,16 @@ export class SetPasswordComponent {
     }
     this.showAlert = false;
     this.setPasswordForm.disable();
-    const loginBody = {
-      correo: this.setPasswordForm.get("correo").value,
-      password: this.setPasswordForm.get("password").value
+    const body = {
+      new_password: this.setPasswordForm.get("password").value
     };
 
-    if (loginBody.correo === "admin@gmail.com" && loginBody.password === "Admin.123") {
-      const adminBody = {
-        id_usuario: "admin",
-        nombre: "Administrador",
-        apellido: "",
-        correo: "admin@gmail.com",
-        password: "Admin.123",
-        numero_tel: "12345678",
-        fecha_nac: new Date().toISOString()
-      };
-      // this.appService.saveToken(JSON.stringify(adminBody));
-      this.router.navigate(["home"]);
-      return;
-    } else {
-      this.alertMessage = "Usuario o contraseña incorrectas.";
-      this.setPasswordForm.enable();
-      this.showAlert = true;
-      this.loading = false;
-    }
+    this.authService.reestablecerPassword(this.idCliente, body).pipe(take(1)).subscribe(resp => {
+      console.log(resp);
+      this.router.navigate(["auth", "login"]);
+    }, err => {
+      console.log(err);
+    });
+    
   }
 }

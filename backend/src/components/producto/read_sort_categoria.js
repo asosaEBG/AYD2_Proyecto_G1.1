@@ -8,25 +8,25 @@ const readProductoSortCategoria = async (req, res) => {
       `    
       SELECT 
             producto.id, 
-            CONVERT(nombre,CHAR) AS nombre,
-            CONVERT(descripcion,CHAR) AS descripcion,
-            CONVERT(portada,CHAR) AS portada,
-            precio,
+            CONVERT(producto.nombre,CHAR) AS nombre,
+            CONVERT(producto.descripcion,CHAR) AS descripcion,
+            CONVERT(producto.portada,CHAR) AS portada,
+            producto.precio,
             DATE_FORMAT(producto.fecha_registro,"%d/%m/%Y %r") AS fecha_registro, 
             DATE_FORMAT(producto.fecha_update,"%d/%m/%Y %r") AS fecha_update,
-            categoria_producto_id,
-            proveedor_id,            
-            costo,
+            producto.categoria_producto_id,
+            producto.proveedor_id,            
+            producto.costo,	
             CONVERT(proveedor.nombre, CHAR) as proveedor,
             CONVERT(categoria_producto.descripcion, CHAR) as categoria_producto
       FROM proyecto.producto
-      where categoria_producto like '%?%'
       INNER JOIN categoria_producto on producto.categoria_producto_id = categoria_producto.id
       INNER JOIN proveedor on producto.proveedor_id = proveedor.id
-      ORDER BY producto.precio ?, producto.fecha_registro ?, nombre ?
+      where categoria_producto.id = ?
+      ORDER BY producto.precio ${precio}, producto.fecha_registro ${fecha_lanzamiento}, nombre ${orden_alfabetico}
       ;
     `,
-      [categoria_producto, precio, fecha_lanzamiento, orden_alfabetico]
+      [categoria_producto]
     )
     .then((response_database) => {
       return res.status(200).json({

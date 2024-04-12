@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "../environments/environment";
 
 export enum RequestMethod {
   POST = "POST",
@@ -12,7 +13,7 @@ export enum RequestMethod {
 
 @Injectable({ providedIn: "root" })
 export class HttpService {
-  private serverUrl: string = "http://localhost:9000";
+  private serverUrl: string = environment.serverUrl;
 
   constructor(private httpClient: HttpClient) {}
 
