@@ -1224,3 +1224,25 @@ Permite a los usuarios dejar comentarios y valoraciones sobre los productos comp
 5. **Fin**
    - El cliente ha completado la gestión de comentarios y valoraciones y cierra sesión en su cuenta.
 
+
+---
+# Frontend
+### Requisitos
+1. NodeJS 18
+2. Angular CLI 18
+
+### Instalación
+1. Clonar el repositorio de de github con el siguiente comando
+```
+git clone https://github.com/asosaEBG/AYD2_Proyecto_G1.1.git
+``` 
+
+2. Instalar los paquetes de node y sus dependencias.
+```
+npm install
+``` 
+
+3. Ejecutar el proyecto con el siguiente comando:
+```
+ng serve
+```
