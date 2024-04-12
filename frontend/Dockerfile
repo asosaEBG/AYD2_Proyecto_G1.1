@@ -1,21 +1,12 @@
-# Stage 1: Build the Angular application
-FROM node:latest AS build
-
-WORKDIR .
-
-COPY package.json package-lock.json ./
-
-RUN npm install
-
+# syntax=docker/dockerfile:1
+FROM node:20-alpine as angular
+WORKDIR /ng-app
+COPY package*.json .
+RUN npm ci
 COPY . .
+RUN npm run build
 
-RUN npm run build --prod
-
-# Stage 2: Serve the Angular application with Nginx
-FROM nginx:latest
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
-#COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
-
+FROM nginx:alpine
+ARG name
+COPY --from=angular /ng-app/dist/$name/browser /usr/share/nginx/html
 EXPOSE 80
