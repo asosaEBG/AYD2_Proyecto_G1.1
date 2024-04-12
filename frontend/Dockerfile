@@ -1,7 +1,7 @@
 # Stage 1: Build the Angular application
 FROM node:latest AS build
 
-WORKDIR /app
+WORKDIR .
 
 COPY package.json package-lock.json ./
 
