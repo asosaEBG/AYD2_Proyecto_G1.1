@@ -1355,3 +1355,17 @@ bashCopy code
 -   `--name=angular-app`: Asigna un nombre al contenedor.
 -   `-p 80:80`: Mapea el puerto 80 del contenedor al puerto 80 del host.
 
+
+# SCRUM
+
+
+En este proyecto, se empleó la metodología ágil Scrum para la gestión y desarrollo de software. Scrum es un marco de trabajo que permite gestionar proyectos de manera iterativa e incremental, lo que significa que el trabajo se divide en ciclos cortos llamados "sprints". Cada sprint tiene una duración fija, generalmente de 2 a 4 semanas, al final de los cuales se entrega un incremento del producto funcional.
+
+Eventos:
+
+    -   Sprint Planning: Reunión en la que se planifica el trabajo a realizar durante el sprint.
+    -   Daily Scrum: Reunión diaria corta para sincronizar al equipo y planificar el trabajo del día.
+    -   Sprint Retrospective: Reflexión sobre el sprint para identificar mejoras en el proceso.
+
+#### Enlace a las Reuniones (Meetings):
+- https://drive.google.com/drive/folders/1C8aIC7PD2yxC6ZKWD88B-aEuF9ftBUMo?usp=drive_link
