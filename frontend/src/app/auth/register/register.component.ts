@@ -27,24 +27,24 @@ export class RegisterComponent {
   passwordRegex = /^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,128}$/;
 
   registerForm: FormGroup = this.fb.group({
-    // nombre: [null, [Validators.required]],
-    // apellido: [null, [Validators.required]],
-    // telefono: [null, [Validators.required]],
-    // correo: [null, [Validators.required, Validators.email]],
-    // password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
-    // passwordRepeat: [null, [Validators.required]],
-    // img: [null, [Validators.required]],
-    // direccion: [null, [Validators.required]],
-    // username: [null, [Validators.required]]
-    nombre: ["Jorge", [Validators.required]],
-    apellido: ["Perez", [Validators.required]],
-    telefono: ["123456787", [Validators.required]],
-    correo: ["usac@gmail.com", [Validators.required, Validators.email]],
-    password: ["Pa$$word123", [Validators.required, Validators.pattern(this.passwordRegex)]],
-    passwordRepeat: ["Pa$$word123", [Validators.required]],
-    img: [null, []],
-    direccion: ["101 Salty Springs", [Validators.required]],
-    username: ["username", [Validators.required]]
+    nombre: [null, [Validators.required]],
+    apellido: [null, [Validators.required]],
+    telefono: [null, [Validators.required]],
+    correo: [null, [Validators.required, Validators.email]],
+    password: [null, [Validators.required, Validators.pattern(this.passwordRegex)]],
+    passwordRepeat: [null, [Validators.required]],
+    img: [null, [Validators.required]],
+    direccion: [null, [Validators.required]],
+    username: [null, [Validators.required]]
+    // nombre: ["Jorge", [Validators.required]],
+    // apellido: ["Perez", [Validators.required]],
+    // telefono: ["123456787", [Validators.required]],
+    // correo: ["usac@gmail.com", [Validators.required, Validators.email]],
+    // password: ["Pa$$word123", [Validators.required, Validators.pattern(this.passwordRegex)]],
+    // passwordRepeat: ["Pa$$word123", [Validators.required]],
+    // img: [null, []],
+    // direccion: ["101 Salty Springs", [Validators.required]],
+    // username: ["username", [Validators.required]]
   });
 
   tarjetaForm: FormGroup = this.fb.group({
