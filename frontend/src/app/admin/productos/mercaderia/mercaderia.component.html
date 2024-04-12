@@ -39,6 +39,10 @@
       </tbody>
     </table>
 
+    <div class="alert alert-warning" *ngIf="ingresos.length === 0">
+      No hay ingresos de mercaderia registrados.
+    </div>
+
   </ng-container>
 
   <app-loading *ngIf="loading"></app-loading>

@@ -28,11 +28,11 @@
             <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['cliente', 'carrito']" *ngIf="user.tipoUsuario === 'CLIENTE'">Mi Carrito</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['admin', 'productos']" *ngIf="user.tipoUsuario === 'ADMINISTRADOR'">Prdoductos</a>
+            <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['admin', 'productos']" *ngIf="user.tipoUsuario === 'ADMINISTRADOR'">Productos</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['admin', 'clientes']" *ngIf="user.tipoUsuario === 'ADMINISTRADOR'">Clientes</a>
-          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['admin', 'pedidos']" *ngIf="user.tipoUsuario === 'ADMINISTRADOR' || user.tipoUsuario === 'COLABORADOR'">Pedidos</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" role="button" routerLinkActive="active" [routerLink]="['admin', 'empleados']" *ngIf="user.tipoUsuario === 'ADMINISTRADOR'">Empleados</a>
           </li>

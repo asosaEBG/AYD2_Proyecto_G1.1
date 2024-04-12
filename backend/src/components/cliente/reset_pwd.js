@@ -32,7 +32,6 @@ const resetPassword = async (req, res) => {
 
 const sendMailPasswordRecovery = (req, res) => {
   let { username } = req.body;
-  console.log("[USERNAME]", username);
   view_on_cognito
     .getUserAttributesByUsername(username)
     .then((response_cognito) => {

@@ -64,4 +64,26 @@ export class AdminService {
   getMercaderiaPorProductoId(idProducto: number): Observable<any> {
     return this.httpService.request(RequestMethod.GET, `/ingreso_mercaderia/producto/${idProducto}`);
   }
+
+  obtenerPedidos(params: any): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/pedido`, {}, params);
+  }
+
+  actualizarPedido(idPedido: number, body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.PUT, `/pedido/${idPedido}`, body);
+  }
+
+  crearValidacionPago(body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/validacion_pago", body);
+  }
+  crearOferta(oferta: any): Observable<any> {
+    return this.httpService.request(RequestMethod.POST, "/oferta", oferta);
+  }
+
+  obtenerOfertas(): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/oferta");
+  }
+  actualizarOferta(idOferta: number, body: any): Observable<any> {
+    return this.httpService.request(RequestMethod.PUT, `/oferta/${idOferta}`, body);
+  }
 }

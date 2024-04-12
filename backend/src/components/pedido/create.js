@@ -3,6 +3,7 @@ const { v4 } = require("uuid");
 
 const createPedido = async (req, res) => {
   const { estado_pedido_id, oferta_id, cliente_id, detalle_pedido } = req.body;
+  console.log("[detalle pedido]", detalle_pedido);
 
   query_format
     .queryFormatWithTransaction(
@@ -36,13 +37,13 @@ const createPedido = async (req, res) => {
                 return res
                   .status(200)
                   .json({ response_pedido, response_database });
+              })
+              .catch((error) => {
+                console.log(error);
+                return res.status(500).json({ log: error });
               });
           }
         })
-        .catch((error) => {
-          console.log(error);
-          return res.status(500).json({ log: error });
-        });
     })
     .catch((error) => {
       console.log(error);

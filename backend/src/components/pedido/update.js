@@ -9,8 +9,8 @@ const updatePedido = async (req, res) => {
           estado_pedido_id,
           oferta_id,
           cliente_id
-      FROM proyecto.pedido;
-      where id = ?
+      FROM proyecto.pedido
+      where id = ${id}
         `,
       [id]
     )
@@ -21,7 +21,7 @@ const updatePedido = async (req, res) => {
             `
             UPDATE proyecto.pedido
             SET  fecha_update=current_timestamp(), estado_pedido_id=?, oferta_id=?, cliente_id=?
-            WHERE id=?;`,
+            WHERE id = ${id};`,
             [
               estado_pedido_id == null
                 ? response_search.result[0].estado_pedido_id

@@ -3,10 +3,11 @@ import { BehaviorSubject, Observable, ReplaySubject, catchError, of, switchMap, 
 import { HttpClient } from "@angular/common/http";
 import { User } from "./auth.types";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  private serverUrl: string = "http://localhost:9000";
+  private serverUrl: string = environment.serverUrl;
   private authenticated = false;
   private tokenSubject: BehaviorSubject<string>;
   private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
@@ -113,6 +114,10 @@ export class AuthService {
 
   recuperarPasswordEmail(body: any): Observable<any> {
     return this.httpClient.post(`${this.serverUrl}/cliente/send-recovery`, body);
+  }
+
+  reestablecerPassword(idSub: string, body: any): Observable<any> {
+    return this.httpClient.put(`${this.serverUrl}/cliente/${idSub}/reset-pwd`, body);
   }
 
   getUser(): Observable<any> {

@@ -18,6 +18,8 @@ export class ForgotPasswordComponent {
   showAlert = false;
   alertMessage = "";
 
+  showInfo = false;
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -37,6 +39,7 @@ export class ForgotPasswordComponent {
 
     this.authService.recuperarPasswordEmail({username: this.username}).pipe(take(1)).subscribe(resp => {
       console.log(resp);
+      this.showInfo = true;
     }, err => {
       console.log(err);
     });

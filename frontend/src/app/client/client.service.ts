@@ -53,4 +53,8 @@ export class ClientService {
   obtenerPedidosDeCliente(idCliente: number): Observable<any> {
     return this.httpService.request(RequestMethod.GET, `/pedido/cliente/${idCliente}`);
   }
+
+  obtenerPedidoPorId(idPedido): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, `/pedido/${idPedido}`);
+  }
 }

@@ -33,7 +33,6 @@ export class ProductosComponent implements OnInit {
     this.loading = true;
     this.adminService.obtenerProductos().pipe(take(1)).subscribe(resp => {
       this.productos = resp.response_database.result;
-      console.log(this.productos);
       this.loading = false;
     }, err => {
       console.log(err);
@@ -68,5 +67,8 @@ export class ProductosComponent implements OnInit {
 
   verMercaderia(idProducto: number): void {
     this.router.navigate(["admin", "productos", idProducto, "mercaderia"]);
+  }
+  verOfertas(): void {
+    this.router.navigate(["admin", "productos", "ofertas"])
   }
 }

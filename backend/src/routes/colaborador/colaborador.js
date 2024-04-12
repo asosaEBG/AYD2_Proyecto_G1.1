@@ -20,6 +20,6 @@ router.delete(
 );
 router.get("/", authMiddleware.authorize, readColaborador.readColaborador);
 router.get("/:id", authMiddleware.authorize, viewColaborador.viewColaborador);
-router.get("/send-recovery",  resetPassword.sendMailPasswordRecovery);
+router.post("/send-recovery",  resetPassword.sendMailPasswordRecovery);
 router.put("/:id/reset-pwd",  resetPassword.resetPassword);
 module.exports = router;

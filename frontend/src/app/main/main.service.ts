@@ -56,4 +56,15 @@ export class MainService {
   obtenerProductosPorCategoria(idCateria: string, precioSort: string, fechaSort: string, nombreSort: string): Observable<any> {
     return this.httpService.request(RequestMethod.GET, `/producto/categoria/${idCateria}/${precioSort}/${fechaSort}/${nombreSort}`);
   }
+
+  obtenerOfertas(query: any): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/oferta", {}, query);
+  }
+
+  obtenerTop10Vendidos(): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/reports/top-ten-productos/ventas");
+  }
+  obtenerTop10Valorados(): Observable<any> {
+    return this.httpService.request(RequestMethod.GET, "/reports/top-ten-productos/valoracion");
+  }
 }
