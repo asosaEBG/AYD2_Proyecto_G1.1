@@ -18,7 +18,7 @@
       Filtrar: 
     </div>
     <div class="col-lg-2">
-      <select class="form-select form-select-sm" [(ngModel)]="filtrarPor" (change)="getPedidos()">
+      <select id="tipoPedidos" class="form-select form-select-sm" [(ngModel)]="filtrarPor" (change)="getPedidos()">
         <option [ngValue]="1">Pendiente</option>
         <option [ngValue]="2">En Ruta</option>
         <option [ngValue]="3">Rechazados</option>
@@ -44,8 +44,8 @@
       </thead>
   
       <tbody>
-        <tr *ngFor="let pedido of pedidos">
-          <td>{{pedido.correlativo}}</td>
+        <tr *ngFor="let pedido of pedidos; let idx = index">
+          <td [id]="idx+'correlativo'">{{pedido.correlativo}}</td>
           <td>{{pedido.fecha_registro | date}}</td>
           <td>
             <span class="badge text-bg-warning" *ngIf="pedido.estado_pedido_id === 1">
@@ -72,13 +72,13 @@
             <button class="btn btn-sm btn-secondary" *ngIf="pedido.tipo_metodo_pago === 'TRANSFERENCIA'" ngbTooltip="Ver constancia de pago" (click)="verCV(pedido.detalle_pago)">
               <i class="bi bi-filetype-pdf"></i>
             </button>
-            <button class="btn btn-success btn-sm" *ngIf="filtrarPor === 1" ngbTooltip="Autorizar" (click)="autorizar(pedido)">
+            <button [id]="idx + 'autorizar'" class="btn btn-success btn-sm" *ngIf="filtrarPor === 1" ngbTooltip="Autorizar" (click)="autorizar(pedido)">
               <i class="bi bi-check-circle"></i>
             </button>
-            <button class="btn btn-success btn-sm" *ngIf="filtrarPor === 2" ngbTooltip="Entregar" (click)="entregar(pedido)">
+            <button [id]="pedido.correlativo + 'entregar'" class="btn btn-success btn-sm" *ngIf="filtrarPor === 2" ngbTooltip="Entregar" (click)="entregar(pedido)">
               <i class="bi bi-check-circle"></i>
             </button>
-            <button class="btn btn-danger btn-sm" *ngIf="filtrarPor === 1" ngbTooltip="Rechazar" (click)="rechazar(pedido)">
+            <button [id]="idx + 'rechazar'" class="btn btn-danger btn-sm" *ngIf="filtrarPor === 1" ngbTooltip="Rechazar" (click)="rechazar(pedido)">
               <i class="bi bi-x-square"></i>
             </button>
           </td>

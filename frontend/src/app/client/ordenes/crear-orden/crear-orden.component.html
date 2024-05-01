@@ -51,7 +51,7 @@
         </div>
         Selecciona el método de pago con el que ejecutaras el pago de los productos listados en la tabla de la factura. Si deseas agregar otro método de pago haz click 
         <a class="link" role="button" (click)="irAMetodosPago()">aqui</a>
-        <select class="form-select mt-3" [(ngModel)]="metodoPagoSeleccionadoId">
+        <select id="seleccionarMetodoPago" class="form-select mt-3" [(ngModel)]="metodoPagoSeleccionadoId">
           <option [ngValue]="null">Seleccionar...</option>
           <option *ngFor="let metodo of metodosPago" [ngValue]="metodo.id">{{metodo.detalles}}</option>
         </select>
@@ -67,7 +67,7 @@
             </div>
           </ng-container>
         </ng-container>
-        <button class="btn btn-primary mt-3" [disabled]="!metodoPagoSeleccionadoId" (click)="confirmar()">Confirmar</button>
+        <button id="confirmarOrden" class="btn btn-primary mt-3" [disabled]="!metodoPagoSeleccionadoId" (click)="confirmar()">Confirmar</button>
       </div>
     </div>
   </ng-container>

@@ -5,7 +5,7 @@
     </div>
     <div class="col-lg">
       <div class="d-grid gap-2">
-        <button class="btn btn-sm btn-primary" (click)="nuevoMetodoPago()">Nuevo Método de Pago</button>
+        <button id="nuevoMetodoPago" class="btn btn-sm btn-primary" (click)="nuevoMetodoPago()">Nuevo Método de Pago</button>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
         <td>{{metodo.tipo_metodo_pago}}</td>
         <td>{{metodo.detalles}}</td>
         <td>
-          <button class="btn btn-danger btn-sm" ngbTooltip="Eliminar" (click)="eliminarMetodoPago(metodo.id)">
+          <button [id]="metodo.numero_tarjeta" class="btn btn-danger btn-sm" ngbTooltip="Eliminar" (click)="eliminarMetodoPago(metodo.id)">
             <i class="bi bi-trash"></i>
           </button>
         </td>
