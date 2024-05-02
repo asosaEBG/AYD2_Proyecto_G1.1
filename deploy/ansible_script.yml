@@ -1,11 +1,11 @@
-#- name: Wait for instance to be fully available
-#  hosts: all
-#  gather_facts: no
-#  tasks:
-#    - name: Pause for 2 minutes
-#      pause:
-#        seconds: 120  # Wait for 2 minutes
-#
+- name: Wait for instance to be fully available
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Pause for 2 minutes
+      pause:
+        seconds: 120  # Wait for 2 minutes
+
 - name: Install Docker on Ubuntu
   hosts: all
   remote_user: ubuntu  # Change remote user to your sudo user!
@@ -100,3 +100,14 @@
       command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker build . -t node-backend
     - name: Run Docker container
       command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker run -d  --restart unless-stopped --name=node-back-end --env-file .env -p 9000:9000 node-backend
+    - name: Set serverUrl in environment.ts
+      lineinfile:
+        path: "/home/ubuntu/AYD2_Proyecto_G1/frontend/src/environments/environment.ts"
+        regexp: "^\\s*serverUrl:"
+        line: '  serverUrl: "http://{{ ansible_default_ipv4.address }}:9000"'
+        backrefs: yes
+    - name: Build front Docker image
+      command: chdir=/home/ubuntu/AYD2_Proyecto_G1/frontend docker build . -t angular-nginx
+    - name: Run Docker container
+      command: chdir=/home/ubuntu/AYD2_Proyecto_G1/frontend sudo docker run -d  --restart unless-stopped --name=angular-app -p 80:80 angular-nginx    
+
