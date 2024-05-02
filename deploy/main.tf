@@ -3,10 +3,10 @@ provider "aws" {
 }
 
 resource "aws_instance" "proyecto_ayd2" {
-  ami           = "ami-04b70fa74e45c3917" # Change to your desired AMI
-  instance_type = "t2.medium"
-  key_name      = "1er-semestre-2024" # Change to your key pair name
-  security_groups = ["launch-wizard-3"] 
+  ami             = "ami-04b70fa74e45c3917" # Change to your desired AMI
+  instance_type   = "t2.medium"
+  key_name        = "1er-semestre-2024" # Change to your key pair name
+  security_groups = ["launch-wizard-3"]
 }
 
 resource "null_resource" "ansible_provisioner" {

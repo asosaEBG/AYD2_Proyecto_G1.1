@@ -100,12 +100,10 @@
       command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker build . -t node-backend
     - name: Run Docker container
       command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker run -d  --restart unless-stopped --name=node-back-end --env-file .env -p 9000:9000 node-backend
-    - name: Set serverUrl in environment.ts
-      lineinfile:
-        path: "/home/ubuntu/AYD2_Proyecto_G1/frontend/src/environments/environment.ts"
-        regexp: "^\\s*serverUrl:"
-        line: '  serverUrl: "http://{{ ansible_default_ipv4.address }}:9000"'
-        backrefs: yes
+    - name: Write environment.ts content
+      copy:
+        dest: /home/ubuntu/AYD2_Proyecto_G1/frontend/src/environments/environment.ts
+        content: "export const environment = {production: true, serverUrl: \"http://{{ ansible_ssh_host  }}:9000\"};"
     - name: Build front Docker image
       command: chdir=/home/ubuntu/AYD2_Proyecto_G1/frontend docker build . -t angular-nginx
     - name: Run Docker container
