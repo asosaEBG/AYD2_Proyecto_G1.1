@@ -9,7 +9,7 @@
           <div class="row mt-2">
             <div class="col-lg">
               <label class="form-label">Usuario</label>
-              <input type="email" class="form-control" [ngClass]="{'is-invalid': notValidUsername}" formControlName="username">
+              <input id="loginUsername" type="email" class="form-control" [ngClass]="{'is-invalid': notValidUsername}" formControlName="username">
               <div class="invalid-feedback">
                 Usuario es requerido
               </div>
@@ -18,7 +18,7 @@
           <div class="row mt-2">
             <div class="col-lg">
               <label class="form-label">Contraseña</label>
-              <input type="password" class="form-control" [ngClass]="{'is-invalid': notValidPassword}" formControlName="password">
+              <input id="loginPassword" type="password" class="form-control" [ngClass]="{'is-invalid': notValidPassword}" formControlName="password">
               <div class="invalid-feedback">
                 Contraseña es requerida
               </div>
@@ -30,7 +30,7 @@
           <div class="d-flex justify-content-between mt-2">
             <a class="text-primary" [routerLink]="['/auth/register']">Aún no tienes cuenta?</a>
             <div class="d-flex flex-column">
-              <button type="button" class="btn btn-primary" [disabled]="loginForm.invalid" (click)="login()">Iniciar Sesión</button>
+              <button id="login" type="button" class="btn btn-primary" [disabled]="loginForm.invalid" (click)="login()">Iniciar Sesión</button>
               <a class="text-primary" [routerLink]="['/auth/forgot-password']">
                 <small>
                   Olvidé mi contraseña

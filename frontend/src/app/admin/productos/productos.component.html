@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg">
       <div class="d-grid gap-2">
-        <button class="btn btn-sm btn-primary" (click)="nuevoProducto()">Nuevo Producto</button>
+        <button id="nuevoProducto" class="btn btn-sm btn-primary" (click)="nuevoProducto()">Nuevo Producto</button>
       </div>
     </div>
   </div>
@@ -44,13 +44,13 @@
         <td>{{producto.precio | currency: 'Q'}}</td>
         <td>{{producto.costo | currency: 'Q'}}</td>
         <td>
-          <button class="btn btn-sm btn-primary" ngbTooltip="Editar" (click)="editarProducto(producto.id)">
+          <button [id]="producto.nombre" class="btn btn-sm btn-primary" ngbTooltip="Editar" (click)="editarProducto(producto.id)">
             <i class="bi bi-pencil-square"></i>
           </button>
-          <button class="btn btn-sm btn-danger mx-3" ngbTooltip="Eliminar" (click)="eliminarProducto(producto.id)">
+          <button [id]="producto.nombre + 'eliminar'" class="btn btn-sm btn-danger mx-3" ngbTooltip="Eliminar" (click)="eliminarProducto(producto.id)">
             <i class="bi bi-trash"></i>
           </button>
-          <button class="btn btn-sm btn-warning" ngbTooltip="Crear Pedido" (click)="verMercaderia(producto.id)">
+          <button [id]="producto.nombre + 'merca'" class="btn btn-sm btn-warning" ngbTooltip="Crear Pedido" (click)="verMercaderia(producto.id)">
             <i class="bi bi-journal-arrow-down"></i>
           </button>
         </td>

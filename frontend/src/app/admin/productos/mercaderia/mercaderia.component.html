@@ -9,7 +9,7 @@
       </div>
       <div class="col-lg">
         <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-sm" (click)="nuevaMercaderia()">Ingreso Mercaderia</button>
+          <button id="ingresoMercaderia" class="btn btn-primary btn-sm" (click)="nuevaMercaderia()">Ingreso Mercaderia</button>
         </div>
       </div>
       <div class="col-lg">
@@ -39,7 +39,7 @@
       </tbody>
     </table>
 
-    <div class="alert alert-warning" *ngIf="ingresos.length === 0">
+    <div id="noIngresos" class="alert alert-warning" *ngIf="ingresos.length === 0">
       No hay ingresos de mercaderia registrados.
     </div>
 

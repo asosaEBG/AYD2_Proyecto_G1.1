@@ -12,10 +12,10 @@
   <hr>
   <div class="row">
     <div class="col-lg-3">
-      <input type="text" class="form-control form-control-sm" [(ngModel)]="textoBuscar" placeholder="Qué juego deseas buscar?" (keyup.enter)="buscar()">
+      <input id="buscarJuego" type="text" class="form-control form-control-sm" [(ngModel)]="textoBuscar" placeholder="Qué juego deseas buscar?" (keyup.enter)="buscar()">
     </div>
     <div class="col-lg-1">
-      <button class="btn btn-primary btn-sm" ngbTooltip="Buscar" (click)="buscar()">
+      <button id="btnBuscar" class="btn btn-primary btn-sm" ngbTooltip="Buscar" (click)="buscar()">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -48,7 +48,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let producto of productos">
+      <tr *ngFor="let producto of productos; let idx = index">
         <td>
           <img [src]="producto.portada" class="rounded float-start fotografia" alt="portada">
         </td>
@@ -58,7 +58,7 @@
         <td>{{producto.proveedor}}</td>
         <td>{{producto.precio | currency: 'Q'}}</td>
         <td>
-          <button class="btn btn-sm btn-primary" ngbTooltip="Editar" (click)="verProducto(producto.id)">
+          <button [id]="idx" class="btn btn-sm btn-primary" ngbTooltip="Editar" (click)="verProducto(producto.id)">
             <i class="bi bi-eye"></i>
           </button>
         </td>

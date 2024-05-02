@@ -26,21 +26,21 @@
             <img [src]="isNew ? (imagenProducto ? imagenProducto : '../../../assets/img/register-img-placeholder.png') :  (imagenProducto ? imagenProducto : producto.portada)" class="card-img-top img-perfil" alt="...">
             <div class="card-body">
               <h5 class="card-content">Portada</h5>
-              <input type="file" (change)="cargarImagen($event)" class="form-control mb-2" formControlName="portada">
+              <input id="image" type="file" (change)="cargarImagen($event)" class="form-control mb-2" formControlName="portada">
             </div>
           </div>
           <div>
             <div class="row">
               <div class="col-lg">
                 <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" [ngClass]="{'is-invalid': notValidNombre}" formControlName="nombre">
+                <input id="nombre" type="text" class="form-control" [ngClass]="{'is-invalid': notValidNombre}" formControlName="nombre">
                 <div class="invalid-feedback">
                   Nombre completo es requerido
                 </div> 
               </div>
               <div class="col-lg">
                 <label class="form-label">Categoria</label>
-                <select class="form-select" [ngClass]="{'is-invalid': notValidCategoria}" formControlName="categoriaId">
+                <select id="categoria" class="form-select" [ngClass]="{'is-invalid': notValidCategoria}" formControlName="categoriaId">
                   <option [ngValue]="null">Elegir categoría</option>
                   <option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.descripcion}}</option>
                 </select>
@@ -53,7 +53,7 @@
             <div class="row">
               <div class="col-lg">
                 <label class="form-label">Descripcion</label>
-                <textarea cols="50" rows="3" class="form-control" [ngClass]="{'is-invalid': notValidDescripcion}" formControlName="descripcion"></textarea>
+                <textarea id="descripcion" cols="50" rows="3" class="form-control" [ngClass]="{'is-invalid': notValidDescripcion}" formControlName="descripcion"></textarea>
                 <div class="invalid-feedback">
                   Descripcion es requerida
                 </div>
@@ -63,7 +63,7 @@
             <div class="row">
               <div class="col-lg">
                 <label class="form-label">Proveedor</label>
-                <select class="form-select" [ngClass]="{'is-invalid': notValidProveedor}" formControlName="proveedorId">
+                <select id="proveedor" class="form-select" [ngClass]="{'is-invalid': notValidProveedor}" formControlName="proveedorId">
                   <option [ngValue]="null">Elegir proveedor</option>
                   <option *ngFor="let proveedor of proveedores" [value]="proveedor.id">{{proveedor.nombre}}</option>
                 </select>
@@ -73,7 +73,7 @@
               </div>
               <div class="col-lg">
                 <label class="form-label">Precio</label>
-                <input type="number" class="form-control" [ngClass]="{'is-invalid': notValidPrecio}" formControlName="precio">
+                <input id="precio" type="number" class="form-control" [ngClass]="{'is-invalid': notValidPrecio}" formControlName="precio">
                 <div class="invalid-feedback">
                   Precio es requerido
                 </div>
@@ -82,7 +82,7 @@
             <div class="row">
               <div class="col-lg-6">
                 <label class="form-label">Costo</label>
-                <input type="number" class="form-control" [ngClass]="{'is-invalid': notValidCosto}" formControlName="costo">
+                <input id="costo" type="number" class="form-control" [ngClass]="{'is-invalid': notValidCosto}" formControlName="costo">
                 <div class="invalid-feedback">
                   Costo es requerido
                 </div>
@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end mt-3">
-          <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+          <button id="guardarProducto" class="btn btn-primary" [disabled]="productoForm.invalid" (click)="guardar()">Guardar</button>
         </div>
         <div class="alert alert-danger mt-2" *ngIf="showAlert">
           {{ alertMessage }}
