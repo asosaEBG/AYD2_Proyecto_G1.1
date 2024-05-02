@@ -1,11 +1,11 @@
-- name: Wait for instance to be fully available
-  hosts: all
-  gather_facts: no
-  tasks:
-    - name: Pause for 5 minutes
-      pause:
-        seconds: 120  # Wait for 2 minutes
-
+#- name: Wait for instance to be fully available
+#  hosts: all
+#  gather_facts: no
+#  tasks:
+#    - name: Pause for 2 minutes
+#      pause:
+#        seconds: 120  # Wait for 2 minutes
+#
 - name: Install Docker on Ubuntu
   hosts: all
   remote_user: ubuntu  # Change remote user to your sudo user!
@@ -97,6 +97,6 @@
         src: "/home/ubuntu/AYD2_Proyecto_G1.1/backend/.env"
         dest: "/home/ubuntu/AYD2_Proyecto_G1/backend/.env"
     - name: Build Docker image
-      command: "docker build . -t node-backend -f /home/ubuntu/AYD2_Proyecto_G1/backend/Dockerfile"
+      command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker build . -t node-backend
     - name: Run Docker container
-      command: "docker run -d  --restart unless-stopped --name=node-back-end --env-file .env -p 9000:9000 -v ${pwd}:/ node-backend"
+      command: chdir=/home/ubuntu/AYD2_Proyecto_G1/backend docker run -d  --restart unless-stopped --name=node-back-end --env-file .env -p 9000:9000 node-backend
