@@ -1355,6 +1355,79 @@ bashCopy code
 -   `--name=angular-app`: Asigna un nombre al contenedor.
 -   `-p 80:80`: Mapea el puerto 80 del contenedor al puerto 80 del host.
 
+Manual de Implementación con Terraform y Ansible
+================================================
+
+Este manual proporciona instrucciones paso a paso para implementar infraestructura utilizando Terraform para aprovisionar recursos de AWS y Ansible para configurar esos recursos.
+
+Prerrequisitos
+--------------
+
+Antes de proceder con la implementación, asegúrate de tener lo siguiente:
+
+-   Terraform instalado en tu máquina local.
+-   Ansible instalado en tu máquina local.
+-   Credenciales de cuenta de AWS con permisos adecuados.
+-   Par de claves SSH configurado en AWS.
+
+Pasos de Implementación
+-----------------------
+
+### 1\. Clonar el Repositorio
+
+Clona el repositorio que contiene la configuración de Terraform y el playbook de Ansible en tu máquina local.
+
+bash
+
+Copy code
+
+`git clone <URL_del_repositorio>
+cd <directorio_del_repositorio>`
+
+### 2\. Actualizar la Configuración de Terraform
+
+Edita el archivo `main.tf` para personalizar la región de AWS, clave de acceso, clave secreta, AMI, tipo de instancia, nombre de la clave y grupos de seguridad según tus requisitos.
+
+### 3\. Inicializar Terraform
+
+Inicializa Terraform en el directorio del proyecto.
+
+bash
+
+Copy code
+
+`terraform init`
+
+### 4\. Implementar Infraestructura
+
+Implementa los recursos de AWS utilizando Terraform.
+
+bash
+
+Copy code
+
+`terraform apply`
+
+### 5\. Ejecutar el Playbook de Ansible
+
+Una vez completada la implementación de Terraform, Ansible se activará automáticamente para configurar las instancias aprovisionadas.
+
+### 6\. Acceder a la Aplicación Implementada
+
+Después de que Ansible complete la configuración, puedes acceder a tu aplicación implementada utilizando la dirección IP pública de la instancia aprovisionada.
+
+Información Adicional
+---------------------
+
+-   Playbook de Ansible: El archivo `ansible_script.yml` contiene tareas para instalar Docker, clonar un repositorio de Git, construir imágenes de Docker y ejecutar contenedores Docker. Modifica este playbook según los requisitos específicos de tu aplicación.
+
+-   Configuración de Terraform: El archivo `main.tf` define recursos de AWS como instancias EC2. Personaliza este archivo según las necesidades de tu infraestructura.
+
+-   Clave SSH: Asegúrate de que la clave SSH especificada en la configuración de Terraform (`1er-semestre-2024.pem`) exista en la ruta especificada y tenga los permisos adecuados.
+
+-   Seguridad: Revisa las configuraciones de seguridad para garantizar un acceso seguro a tus recursos e instancias de AWS.
+
+Siguiendo estos pasos, puedes implementar y configurar correctamente la infraestructura utilizando Terraform y Ansible.
 
 # SCRUM
 
